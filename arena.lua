@@ -72,13 +72,31 @@ function arena:draw()
 	end
 	
 	for _, p in pairs(arena.pickups) do
+	
+		--shadow
+		love.graphics.push()
+		love.graphics.translate(p.x,p.y+p.h)
+		love.graphics.rotate(p.angle)
+		love.graphics.translate(-p.x,-(p.y+p.h))
+	
+		love.graphics.setColor(0,0,0,155)
+		love.graphics.circle("fill", p.x,p.y+p.h,p.w,3)
+		love.graphics.pop()
+	
+		--graphic
+		love.graphics.push()
+		love.graphics.translate(p.x,p.y)
+		love.graphics.rotate(p.angle)
+		love.graphics.translate(-p.x,-p.y)
+	
 		if p.type == "health" then
 			love.graphics.setColor(255,0,0,255)
-			love.graphics.circle("fill", p.x,p.y,p.w,p.h)
+			love.graphics.circle("fill", p.x,p.y,p.w,3)
 		elseif p.type == "mana" then
 			love.graphics.setColor(255,0,255,255)
-			love.graphics.circle("fill", p.x,p.y,p.w,p.h)
+			love.graphics.circle("fill", p.x,p.y,p.w,3)
 		end
+		love.graphics.pop()
 	end
 	
 	player:draw()
@@ -183,5 +201,6 @@ function arena:addpickup(type,x,y)
 		w = w or 0,
 		h = h or 0,
 		value = value or 0,
+		angle = math.random(360)
 	})
 end
