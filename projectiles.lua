@@ -17,13 +17,11 @@ projectiles = {}
 
 function projectiles:add(entity,dir,dt)
 
-
-	
 	player.projectileCycle = math.max(0, player.projectileCycle - dt)
 
 	if player.projectileCycle <= 0 then
 	
-		local x, y, w, h, xvel, yvel = 0
+		local x, y, w, h, xvel, yvel, velocity, damage = 0
 		
 		if entity.weapon == "gun" then
 			if dir == "left" or dir == "right" then
@@ -33,17 +31,31 @@ function projectiles:add(entity,dir,dt)
 				w = 2
 				h = 5
 			end
+			velocity = 500
+			damage = 5
+			entity.projectileDelay = 0.25
 		end
-
+		
+		if entity.weapon == "laser" then
+			if dir == "left" or dir == "right" then
+				w = 15
+				h = 2
+			else
+				w = 2
+				h = 15
+			end
+			velocity = 800
+			damage = 10
+			entity.projectileDelay = 0.5
+		end
 
 		x = entity.x +entity.w/2
 		y = entity.y +entity.h/2
 		
-	
-		if dir == "up" then yvel = -500 end
-		if dir == "down" then yvel = 500 end
-		if dir == "left" then xvel = -500 end
-		if dir == "right" then xvel = 500 end
+		if dir == "up" then yvel = -velocity end
+		if dir == "down" then yvel = velocity end
+		if dir == "left" then xvel = -velocity end
+		if dir == "right" then xvel = velocity end
 	
 		table.insert(projectiles, {
 			type = entity.weapon,
@@ -53,6 +65,7 @@ function projectiles:add(entity,dir,dt)
 			y = y -h/2 or 0,
 			xvel = xvel or 0,
 			yvel = yvel or 0,
+			damage = damage or 0,
 
 		})
 				
@@ -88,6 +101,9 @@ function projectiles:draw()
 	for i,p in ipairs(projectiles) do
 		if p.type == "gun" then
 			love.graphics.setColor(255,100,0,255)
+			love.graphics.rectangle("fill", p.x,p.y,p.w,p.h)
+		elseif p.type == "laser" then
+			love.graphics.setColor(255,100,255,255)
 			love.graphics.rectangle("fill", p.x,p.y,p.w,p.h)
 		end
 		n = n +1
