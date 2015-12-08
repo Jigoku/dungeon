@@ -24,7 +24,7 @@ end
 
 function collision:right(a,b)
 	return a.newx <= b.x+b.w and 
-					a.x >= b.x+b.w 
+					a.x >= b.x+b.w
 end
 
 function collision:left(a,b)
@@ -39,13 +39,13 @@ end
 
 function collision:bottom(a,b)
 	return a.newy <= b.y+b.h and 
-					a.y+a.h >= b.y+b.h
+					a.y >= b.y+b.h 
 end
 
 
 function collision:bounds(o) 
-	return  (o.x < arena.x) or
-			(o.y < arena.y) or
-			(o.x+o.w > arena.w) or
-			(o.y+o.h > arena.h)
+	return  (o.newx < arena.x) or
+			(o.newy < arena.y) or
+			(o.newx+o.w > arena.w) or
+			(o.newy+o.h > arena.h)
 end

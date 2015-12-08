@@ -59,18 +59,21 @@ end
 
 function projectiles:main(dt)
 	for i, p in ipairs(projectiles) do
-		p.x = p.x + p.xvel *dt
-		p.y = p.y + p.yvel *dt
+		p.newx = p.x + p.xvel *dt
+		p.newy = p.y + p.yvel *dt
 
 		if collision:bounds(p) then
 			table.remove(projectiles, i)
 		end
 
 		for _, w in ipairs(arena.walls) do
-			if collision:overlap(p.x,p.y,p.w,p.h, w.x,w.y,w.w,w.h) then
+			if collision:overlap(p.newx,p.newy,p.w,p.h, w.x,w.y,w.w,w.h) then
 				table.remove(projectiles, i)
 			end
 		end
+		
+		p.x = p.newx
+		p.y = p.newy
 	end
 	
 end

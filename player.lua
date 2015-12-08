@@ -42,6 +42,9 @@ function player:shoot(dt)
 	if love.keyboard.isDown(binds.shoot_right) then projectiles:add(player,"right",dt) return end
 end
 
+
+
+
 function player:move(dt)
 	--player movement
 
@@ -54,10 +57,10 @@ function player:move(dt)
 	for _,w in ipairs(arena.walls) do
 		if collision:overlap(player.newx,player.newy,player.w,player.h, w.x,w.y,w.w,w.h) then
 		
-			if collision:left(player,w) then player.newx = w.x -player.w -1 break end
-			if collision:right(player,w) then player.newx = w.x +w.w +1 break end
-			if collision:top(player,w) then player.newy = w.y -player.h -1 break end
-			if collision:bottom(player,w) then player.newy = w.y+w.h +1 break end
+			if collision:left(player,w) then player.newx = w.x -player.w -1  end
+			if collision:right(player,w) then player.newx = w.x +w.w +1  end
+			if collision:top(player,w) then player.newy = w.y -player.h -1  end
+			if collision:bottom(player,w) then player.newy = w.y+w.h +1  end
 		end
 	end
 	
