@@ -39,6 +39,7 @@ end
 function player:main(dt)
 	player:move(dt)
 	player:shoot(dt)
+	player:state(dt)
 end
 
 function player:shoot(dt)
@@ -101,6 +102,11 @@ function player:move(dt)
 		end
 	end
 	
+	for _, st in ipairs(arena.spiketraps) do
+		if collision:overlap(player.newx,player.newy,player.w,player.h, st.x,st.y,st.w,st.h) then
+			player.health = player.health - 100*dt
+		end
+	end
 	
 	if player.newx < arena.x then player.newx = arena.x +1 end
 	if player.newy < arena.y then player.newy = arena.y +1 end
@@ -109,6 +115,10 @@ function player:move(dt)
 	
 	player.x = player.newx
 	player.y = player.newy
+end
+
+function player:state(dt)
+	if player.health < 1 then print("game over") reset() end
 end
 
 function player:draw()

@@ -30,7 +30,7 @@ function reset()
 	arena:addwall(100,100,500,200)
 	arena:addwall(300,200,100,400)
 	arena:addwall(800,400,200,200)
-	
+	arena:addspiketrap(600,800,60,60)	
 end
 
 function love.load()

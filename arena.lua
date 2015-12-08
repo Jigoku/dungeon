@@ -14,7 +14,7 @@
  --]]
 arena = {}
 
-arena.walls = {}
+
 
 function arena:init()
 	--properties
@@ -26,6 +26,10 @@ function arena:init()
 	--statistics
 	arena.projectiles = 0
 	arena.enemies = 0
+	
+	--world entities
+	arena.walls = {}
+	arena.spiketraps = {}
 end
 
 
@@ -48,6 +52,11 @@ function arena:draw()
 		love.graphics.rectangle("line", w.x,w.y,w.w,w.h)
 	end
 	
+	for i, st in ipairs(arena.spiketraps) do
+		love.graphics.setColor(80,55,55,255)
+		love.graphics.rectangle("fill", st.x,st.y,st.w,st.h)
+	end
+	
 end
 
 function arena:addwall(x,y,w,h)
@@ -58,4 +67,11 @@ function arena:addwall(x,y,w,h)
 		h = h or 0,
 	})
 end
-
+function arena:addspiketrap(x,y,w,h)
+	table.insert(arena.spiketraps, {
+		x = x or 0,
+		y = y or 0,
+		w = w or 0,
+		h = h or 0,
+	})
+end
