@@ -47,19 +47,19 @@ function arena:draw()
 	
 	--walls
 	
-	for i, w in ipairs(arena.walls) do
+	for _, w in pairs(arena.walls) do
 		love.graphics.setColor(30,30,30,255)
 		love.graphics.rectangle("fill", w.x,w.y,w.w,w.h)
 		love.graphics.setColor(255,255,255,255)
 		love.graphics.rectangle("line", w.x,w.y,w.w,w.h)
 	end
 	
-	for i, st in ipairs(arena.spiketraps) do
+	for _, st in pairs(arena.spiketraps) do
 		love.graphics.setColor(80,55,55,255)
 		love.graphics.rectangle("fill", st.x,st.y,st.w,st.h)
 	end
 	
-	for i, p in ipairs(arena.pickups) do
+	for _, p in pairs(arena.pickups) do
 		if p.type == "health" then
 			love.graphics.setColor(255,0,0,255)
 			love.graphics.circle("fill", p.x,p.y,p.w,p.h)

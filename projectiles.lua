@@ -24,7 +24,7 @@ function projectiles:add(entity,dir,dt)
 		local x, y, w, h, xvel, yvel, velocity, damage = 0
 		
 		--pistol
-		if entity.weaponslot == 1 then
+		if self:slot2name(entity.weaponslot) == "pistol" then
 			if dir == "left" or dir == "right" then
 				w = 5
 				h = 2
@@ -37,7 +37,7 @@ function projectiles:add(entity,dir,dt)
 			entity.projectileDelay = 0.25
 			
 		--laser
-		elseif entity.weaponslot == 2 then
+		elseif self:slot2name(entity.weaponslot) == "laser" then
 			if dir == "left" or dir == "right" then
 				w = 15
 				h = 2
@@ -83,7 +83,7 @@ end
 
 function projectiles:main(dt)
 	local n = 0
-	for i, p in ipairs(arena.projectiles) do
+	for i, p in pairs(arena.projectiles) do
 		p.newx = p.x + p.xvel *dt
 		p.newy = p.y + p.yvel *dt
 
@@ -105,7 +105,7 @@ function projectiles:main(dt)
 end
 
 function projectiles:draw()
-	for _,p in ipairs(arena.projectiles) do
+	for _,p in pairs(arena.projectiles) do
 		if p.type == "pistol" then
 			love.graphics.setColor(255,100,0,255)
 			love.graphics.rectangle("fill", p.x,p.y,p.w,p.h)

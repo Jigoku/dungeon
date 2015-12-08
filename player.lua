@@ -34,12 +34,15 @@ function player:init()
 	
 	player.projectileDelay = 0.1
 	player.projectileCycle = 0
+	
+	camera:setPosition(player.x+player.w/2,player.y +player.h/2)
 end
 
 function player:main(dt)
 	player:move(dt)
 	player:shoot(dt)
 	player:state(dt)
+	player:setcamera(dt)
 end
 
 function player:shoot(dt)
@@ -92,7 +95,7 @@ function player:move(dt)
 		player.newy = player.y +player.speed *dt
 	 end
 	
-	for _,w in ipairs(arena.walls) do
+	for _,w in pairs(arena.walls) do
 		if collision:overlap(player.newx,player.newy,player.w,player.h, w.x,w.y,w.w,w.h) then
 		
 			if collision:left(player,w) then player.newx = w.x -player.w -1  end
@@ -102,13 +105,13 @@ function player:move(dt)
 		end
 	end
 	
-	for _, st in ipairs(arena.spiketraps) do
+	for _, st in pairs(arena.spiketraps) do
 		if collision:overlap(player.newx,player.newy,player.w,player.h, st.x,st.y,st.w,st.h) then
 			player.health = player.health - 100*dt
 		end
 	end
 	
-	for i, p in ipairs(arena.pickups) do
+	for i, p in pairs(arena.pickups) do
 		if collision:overlap(player.newx,player.newy,player.w,player.h, p.x,p.y,p.w,p.h) then
 			if p.type == "health" then
 				player.health = player.health + p.value
@@ -127,6 +130,16 @@ function player:move(dt)
 	
 	player.x = player.newx
 	player.y = player.newy
+end
+
+
+function player:setcamera(dt)
+	if player.x+player.w/2 > arena.x+WIDTH/3 and (player.x+player.w/2 < arena.x+arena.w-WIDTH/3) then
+		camera.x = (player.x+player.w/2)
+	end
+	if player.y+player.h/2 > arena.y+HEIGHT/3 and (player.y+player.h/2 < arena.y+arena.h-HEIGHT/3) then
+		camera.y = (player.y +player.h/2)
+	end
 end
 
 function player:state(dt)
