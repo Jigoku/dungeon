@@ -24,7 +24,7 @@ function player:init()
 	player.dir = "down"
 	player.speed = 200
 	player.score = 0
-	player.weapon = "laser"
+	player.weaponslot = 1
 	
 	player.health = 72
 	player.maxhealth = 100
@@ -68,8 +68,8 @@ end
 
 
 function player:keypressed(key)
-	if key == binds.slot1 then player.weapon = "gun" end
-	if key == binds.slot2 then player.weapon = "laser" end
+	if key == binds.slot1 then player.weaponslot = 1 end
+	if key == binds.slot2 then player.weaponslot = 2 end
 end
 
 function player:move(dt)

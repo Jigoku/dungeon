@@ -23,7 +23,8 @@ function projectiles:add(entity,dir,dt)
 	
 		local x, y, w, h, xvel, yvel, velocity, damage = 0
 		
-		if entity.weapon == "gun" then
+		--pistol
+		if entity.weaponslot == 1 then
 			if dir == "left" or dir == "right" then
 				w = 5
 				h = 2
@@ -34,9 +35,9 @@ function projectiles:add(entity,dir,dt)
 			velocity = 500
 			damage = 5
 			entity.projectileDelay = 0.25
-		end
-		
-		if entity.weapon == "laser" then
+			
+		--laser
+		elseif entity.weaponslot == 2 then
 			if dir == "left" or dir == "right" then
 				w = 15
 				h = 2
@@ -58,7 +59,7 @@ function projectiles:add(entity,dir,dt)
 		if dir == "right" then xvel = velocity end
 	
 		table.insert(projectiles, {
-			type = entity.weapon,
+			type = self:slot2name(entity.weaponslot),
 			w = w,
 			h = h,
 			x = x -w/2 or 0,
@@ -73,6 +74,11 @@ function projectiles:add(entity,dir,dt)
 		
 
 	end
+end
+
+function projectiles:slot2name(slot)
+	if slot == 1 then return "pistol"
+	elseif slot == 2 then return "laser" end
 end
 
 function projectiles:main(dt)
@@ -99,7 +105,7 @@ end
 function projectiles:draw()
 	local n = 0
 	for i,p in ipairs(projectiles) do
-		if p.type == "gun" then
+		if p.type == "pistol" then
 			love.graphics.setColor(255,100,0,255)
 			love.graphics.rectangle("fill", p.x,p.y,p.w,p.h)
 		elseif p.type == "laser" then
@@ -110,3 +116,4 @@ function projectiles:draw()
 	end
 	arena.projectiles = n
 end
+
