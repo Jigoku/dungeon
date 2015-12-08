@@ -108,6 +108,18 @@ function player:move(dt)
 		end
 	end
 	
+	for i, p in ipairs(arena.pickups) do
+		if collision:overlap(player.newx,player.newy,player.w,player.h, p.x,p.y,p.w,p.h) then
+			if p.type == "health" then
+				player.health = player.health + p.value
+				table.remove(arena.pickups, i)
+			elseif p.type == "mana" then
+				player.mana = player.mana + p.value
+				table.remove(arena.pickups, i)
+			end
+		end
+	end
+	
 	if player.newx < arena.x then player.newx = arena.x +1 end
 	if player.newy < arena.y then player.newy = arena.y +1 end
 	if player.newx+player.w > arena.w then player.newx = arena.w-player.w -1 end
@@ -119,6 +131,7 @@ end
 
 function player:state(dt)
 	if player.health < 1 then print("game over") reset() end
+	if player.mana < 1 then player.mana = 0 end
 end
 
 function player:draw()

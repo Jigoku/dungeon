@@ -26,11 +26,16 @@ function reset()
 	arena:init()
 	player:init()
 	
-	--test walls
+	--test map
 	arena:addwall(100,100,500,200)
 	arena:addwall(300,200,100,400)
 	arena:addwall(800,400,200,200)
 	arena:addspiketrap(600,800,60,60)	
+	
+	arena:addpickup("health",450,400)
+	arena:addpickup("health",500,400)
+	arena:addpickup("mana",500,520)
+	arena:addpickup("mana",500,570)
 end
 
 function love.load()
