@@ -44,6 +44,8 @@ function arena:init()
 
 	arena.top_texture = love.graphics.newImage("data/textures/marble.png")
 	arena.top_texture:setWrap("repeat", "repeat")
+	
+	arena.shroud = love.graphics.newImage("data/textures/shroud.png")
 end
 
 
@@ -81,7 +83,7 @@ function arena:draw()
 	
 	player:draw()
 	projectiles:draw()
-	
+
 	--walls layer 2
 	for _, w in pairs(arena.walls) do
 		
@@ -95,7 +97,57 @@ function arena:draw()
 			love.graphics.rectangle("line", w.x,w.y,w.w,w.h)
 		end
 	end
+	
+	--shadow/shroud
+	love.graphics.setColor(0,0,0,200)
+	love.graphics.draw(self.shroud, player.x+player.w/2-self.shroud:getWidth()/2,player.y+player.h/2-self.shroud:getHeight()/2)
+	
+	local x = player.x+player.w/2-self.shroud:getWidth()/2
+	local y = player.y+player.h/2-self.shroud:getHeight()/2
+	
+	--left
+	if debug then
+		love.graphics.setColor(0,0,255,200)
+	end
+	love.graphics.rectangle("fill", 
+		x-self.shroud:getWidth(),
+		y-self.shroud:getHeight()/2,
+		self.shroud:getWidth(),
+		self.shroud:getHeight()*2
+	)
+	--right
+	if debug then
+		love.graphics.setColor(0,0,255,200)
+	end
+	love.graphics.rectangle("fill", 
+		x+self.shroud:getWidth(),
+		y-self.shroud:getHeight()/2,
+		self.shroud:getWidth(),
+		self.shroud:getHeight()*2
+	)
+	--top
+	if debug then
+		love.graphics.setColor(0,255,0,200)
+	end
+	love.graphics.rectangle("fill", 
+		x,
+		y-self.shroud:getHeight()/2,
+		self.shroud:getWidth(),
+		self.shroud:getHeight()/2
+	)
+	--bottom
+	if debug then
+		love.graphics.setColor(0,255,0,200)
+	end
+	love.graphics.rectangle("fill", 
+		x,
+		y+self.shroud:getHeight(),
+		self.shroud:getWidth(),
+		self.shroud:getHeight()/2
+	)
+	
 end
+
 
 function arena:addwall(x,y,w,h)
 	table.insert(arena.walls, {

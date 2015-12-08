@@ -24,7 +24,7 @@ require("collision")
 require("projectiles")
 
 paused = false
-debug = true
+debug = false
 
 function reset()
 	arena:init()
