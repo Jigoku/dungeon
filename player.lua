@@ -105,6 +105,16 @@ function player:move(dt)
 		end
 	end
 	
+	for _,p in pairs(arena.pits) do
+		if collision:overlap(player.newx,player.newy,player.w,player.h, p.x,p.y,p.w,p.h) then
+	
+			if collision:left(player,p) then player.newx = p.x -player.w -1  end
+			if collision:right(player,p) then player.newx = p.x +p.w +1  end
+			if collision:top(player,p) then player.newy = p.y -player.h -1  end
+			if collision:bottom(player,p) then player.newy = p.y+p.h +1  end
+		end
+	end
+	
 	for _, st in pairs(arena.spiketraps) do
 		if collision:overlap(player.newx,player.newy,player.w,player.h, st.x,st.y,st.w,st.h) then
 			player.health = player.health - 100*dt

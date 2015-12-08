@@ -35,6 +35,9 @@ function reset()
 	arena:addwall(300,200,100,400)
 	arena:addwall(800,400,200,200)
 	arena:addspiketrap(600,800,60,60)	
+
+	arena:addpit(500,800,60,60)	
+	arena:addpit(300,900,130,100)	
 	
 	arena:addpickup("health",450,400)
 	arena:addpickup("health",500,400)

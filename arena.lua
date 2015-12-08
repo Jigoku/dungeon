@@ -32,7 +32,7 @@ function arena:init()
 	arena.spiketraps = {}
 	arena.pickups = {}
 	arena.projectiles = {}
-	
+	arena.pits = {}
 	
 	arena.wall_height = 50
 	
@@ -65,6 +65,22 @@ function arena:draw()
 		local quad = love.graphics.newQuad( 0,0, w.w, arena.wall_height, arena.wall_texture:getDimensions() )
 		love.graphics.draw(arena.wall_texture, quad, w.x,w.y+w.h-self.wall_height/2)
 	end
+	
+	for _, p in pairs(arena.pits) do
+		love.graphics.setColor(0,0,0,255)
+		love.graphics.rectangle("fill",p.x,p.y,p.w,p.h+arena.wall_height/2)
+	
+		love.graphics.setColor(40,40,50,255)
+		
+		local quad = love.graphics.newQuad( 0,0, p.w, arena.wall_height/2, arena.wall_texture:getDimensions() )
+		love.graphics.draw(arena.wall_texture, quad, p.x,p.y)
+				
+		if debug then
+			love.graphics.setColor(255,0,0,255)
+			love.graphics.rectangle("line", p.x,p.y,p.w,p.h)
+		end
+	end
+	
 	
 	for _, st in pairs(arena.spiketraps) do
 		love.graphics.setColor(80,55,55,255)
@@ -115,6 +131,9 @@ function arena:draw()
 			love.graphics.rectangle("line", w.x,w.y,w.w,w.h)
 		end
 	end
+	
+
+	
 	
 	--shadow/shroud
 	love.graphics.setColor(0,0,0,200)
@@ -169,6 +188,14 @@ end
 
 function arena:addwall(x,y,w,h)
 	table.insert(arena.walls, {
+		x = x or 0,
+		y = y or 0,
+		w = w or 0,
+		h = h or 0,
+	})
+end
+function arena:addpit(x,y,w,h)
+	table.insert(arena.pits, {
 		x = x or 0,
 		y = y or 0,
 		w = w or 0,
