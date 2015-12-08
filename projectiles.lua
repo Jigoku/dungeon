@@ -58,7 +58,7 @@ function projectiles:add(entity,dir,dt)
 		if dir == "left" then xvel = -velocity end
 		if dir == "right" then xvel = velocity end
 	
-		table.insert(projectiles, {
+		table.insert(arena.projectiles, {
 			type = self:slot2name(entity.weaponslot),
 			w = w,
 			h = h,
@@ -82,29 +82,30 @@ function projectiles:slot2name(slot)
 end
 
 function projectiles:main(dt)
-	for i, p in ipairs(projectiles) do
+	local n = 0
+	for i, p in ipairs(arena.projectiles) do
 		p.newx = p.x + p.xvel *dt
 		p.newy = p.y + p.yvel *dt
 
 		if collision:bounds(p) then
-			table.remove(projectiles, i)
+			table.remove(arena.projectiles, i)
 		end
 
 		for _, w in ipairs(arena.walls) do
 			if collision:overlap(p.newx,p.newy,p.w,p.h, w.x,w.y,w.w,w.h) then
-				table.remove(projectiles, i)
+				table.remove(arena.projectiles, i)
 			end
 		end
 		
 		p.x = p.newx
 		p.y = p.newy
+		n = n +1
 	end
-	
+	arena.total_projectiles = n
 end
 
 function projectiles:draw()
-	local n = 0
-	for i,p in ipairs(projectiles) do
+	for _,p in ipairs(arena.projectiles) do
 		if p.type == "pistol" then
 			love.graphics.setColor(255,100,0,255)
 			love.graphics.rectangle("fill", p.x,p.y,p.w,p.h)
@@ -112,8 +113,6 @@ function projectiles:draw()
 			love.graphics.setColor(255,100,255,255)
 			love.graphics.rectangle("fill", p.x,p.y,p.w,p.h)
 		end
-		n = n +1
 	end
-	arena.projectiles = n
 end
 

@@ -24,13 +24,14 @@ function arena:init()
 	arena.h = 1500
 
 	--statistics
-	arena.projectiles = 0
-	arena.enemies = 0
+	arena.total_projectiles = 0
+	arena.total_enemies = 0
 	
 	--world entities
 	arena.walls = {}
 	arena.spiketraps = {}
 	arena.pickups = {}
+	arena.projectiles = {}
 end
 
 

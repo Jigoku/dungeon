@@ -97,7 +97,7 @@ function love.draw()
 		love.graphics.printf("x: ".. math.ceil(player.x),love.graphics.getWidth()-100,25,300,"left",0,1,1)
 		love.graphics.printf("y: ".. math.ceil(player.y),love.graphics.getWidth()-100,40,300,"left",0,1,1)
 		love.graphics.printf("dir: ".. player.dir,love.graphics.getWidth()-100,55,300,"left",0,1,1)
-		love.graphics.printf("projectiles: ".. tostring(arena.projectiles),love.graphics.getWidth()-100,70,300,"left",0,1,1)
+		love.graphics.printf("projectiles: ".. tostring(arena.total_projectiles),love.graphics.getWidth()-100,70,300,"left",0,1,1)
 		love.graphics.printf("state: " .. (paused and "paused" or "running") ,love.graphics.getWidth()-100,85,300,"left",0,1,1)
 		love.graphics.printf("weapon: " .. projectiles:slot2name(player.weaponslot) ,love.graphics.getWidth()-100,100,300,"left",0,1,1)
 	end
