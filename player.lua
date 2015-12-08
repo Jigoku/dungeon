@@ -128,8 +128,8 @@ function player:move(dt)
 	if player.newx+player.w > arena.w then player.newx = arena.w-player.w -1 end
 	if player.newy+player.h > arena.h then player.newy = arena.h-player.h -1 end
 	
-	player.x = player.newx
-	player.y = player.newy
+	player.x = math.round(player.newx)
+	player.y = math.round(player.newy)
 end
 
 

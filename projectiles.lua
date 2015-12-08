@@ -97,8 +97,8 @@ function projectiles:main(dt)
 			end
 		end
 		
-		p.x = p.newx
-		p.y = p.newy
+		p.x = math.round(p.newx)
+		p.y = math.round(p.newy)
 		n = n +1
 	end
 	arena.total_projectiles = n

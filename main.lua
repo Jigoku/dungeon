@@ -67,8 +67,6 @@ function love.draw()
 	
 	camera:set()
 		arena:draw()
-		player:draw()
-		projectiles:draw()
 	camera:unset()
 
 
@@ -100,8 +98,8 @@ function love.draw()
 	if debug then
 		love.graphics.setColor(255,255,255,155)
 		love.graphics.printf("fps: ".. love.timer.getFPS(),WIDTH-100,10,300,"left",0,1,1)
-		love.graphics.printf("x: ".. math.ceil(player.x),WIDTH-100,25,300,"left",0,1,1)
-		love.graphics.printf("y: ".. math.ceil(player.y),WIDTH-100,40,300,"left",0,1,1)
+		love.graphics.printf("x: ".. math.round(player.x),WIDTH-100,25,300,"left",0,1,1)
+		love.graphics.printf("y: ".. math.round(player.y),WIDTH-100,40,300,"left",0,1,1)
 		love.graphics.printf("dir: ".. player.dir,WIDTH-100,55,300,"left",0,1,1)
 		love.graphics.printf("projectiles: ".. tostring(arena.total_projectiles),WIDTH-100,70,300,"left",0,1,1)
 		love.graphics.printf("state: " .. (paused and "paused" or "running") ,WIDTH-100,85,300,"left",0,1,1)
@@ -117,4 +115,11 @@ function love.keypressed(key)
 	if key == "f1" then reset() end
 	
 	player:keypressed(key)
+end
+
+
+function math.round(num, idp)
+	-- round integer to decimal places
+	local mult = 10^(idp or 0)
+	return math.floor(num * mult + 0.5) / mult
 end

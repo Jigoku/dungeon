@@ -32,6 +32,18 @@ function arena:init()
 	arena.spiketraps = {}
 	arena.pickups = {}
 	arena.projectiles = {}
+	
+	
+	arena.wall_height = 50
+	
+	arena.wall_texture = love.graphics.newImage("data/textures/brick.png")
+	arena.wall_texture:setWrap("repeat", "repeat")
+	
+	arena.floor_texture = love.graphics.newImage("data/textures/checked.png")
+	arena.floor_texture:setWrap("repeat", "repeat")
+
+	arena.top_texture = love.graphics.newImage("data/textures/marble.png")
+	arena.top_texture:setWrap("repeat", "repeat")
 end
 
 
@@ -39,19 +51,17 @@ end
 function arena:draw()
 
 	--floor
-	love.graphics.setColor(10,20,30,255)
-	love.graphics.rectangle("fill", 0,0,arena.w,arena.h)
-		
-	love.graphics.setColor(255,255,255,255)
-	love.graphics.rectangle("line", 0,0,arena.w,arena.h)
+	love.graphics.setColor(80,80,100,255)
 	
-	--walls
+	local quad = love.graphics.newQuad( 0,0,arena.w,arena.h, arena.floor_texture:getDimensions() )
+	love.graphics.draw(arena.floor_texture, quad, 0,0)
 	
+	--walls layer 1
 	for _, w in pairs(arena.walls) do
-		love.graphics.setColor(30,30,30,255)
-		love.graphics.rectangle("fill", w.x,w.y,w.w,w.h)
-		love.graphics.setColor(255,255,255,255)
-		love.graphics.rectangle("line", w.x,w.y,w.w,w.h)
+		love.graphics.setColor(40,40,50,255)
+		
+		local quad = love.graphics.newQuad( 0,0, w.w, arena.wall_height, arena.wall_texture:getDimensions() )
+		love.graphics.draw(arena.wall_texture, quad, w.x,w.y+w.h-self.wall_height/2)
 	end
 	
 	for _, st in pairs(arena.spiketraps) do
@@ -66,6 +76,23 @@ function arena:draw()
 		elseif p.type == "mana" then
 			love.graphics.setColor(255,0,255,255)
 			love.graphics.circle("fill", p.x,p.y,p.w,p.h)
+		end
+	end
+	
+	player:draw()
+	projectiles:draw()
+	
+	--walls layer 2
+	for _, w in pairs(arena.walls) do
+		
+		love.graphics.setColor(50,50,50,255)
+		local quad = love.graphics.newQuad( w.x,w.y-self.wall_height/2,w.w,w.h, arena.top_texture:getDimensions() )
+		love.graphics.draw(arena.top_texture, quad, w.x,w.y-self.wall_height/2)
+
+		
+		if debug then
+			love.graphics.setColor(255,0,0,255)
+			love.graphics.rectangle("line", w.x,w.y,w.w,w.h)
 		end
 	end
 end
