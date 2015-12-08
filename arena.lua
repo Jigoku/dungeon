@@ -44,6 +44,8 @@ function arena:init()
 
 	arena.top_texture = love.graphics.newImage("data/textures/marble.png")
 	arena.top_texture:setWrap("repeat", "repeat")
+	arena.pit_texture = love.graphics.newImage("data/textures/brick_pit.png")
+	arena.pit_texture:setWrap("repeat", nil)
 	
 	arena.shroud = love.graphics.newImage("data/textures/shroud.png")
 end
@@ -64,6 +66,7 @@ function arena:draw()
 		
 		local quad = love.graphics.newQuad( 0,0, w.w, arena.wall_height, arena.wall_texture:getDimensions() )
 		love.graphics.draw(arena.wall_texture, quad, w.x,w.y+w.h-self.wall_height/2)
+	
 	end
 	
 	for _, p in pairs(arena.pits) do
@@ -72,8 +75,11 @@ function arena:draw()
 	
 		love.graphics.setColor(40,40,50,255)
 		
-		local quad = love.graphics.newQuad( 0,0, p.w, arena.wall_height/2, arena.wall_texture:getDimensions() )
-		love.graphics.draw(arena.wall_texture, quad, p.x,p.y)
+		local quad = love.graphics.newQuad( 0,0, p.w, arena.wall_height, arena.pit_texture:getDimensions() )
+		love.graphics.draw(arena.pit_texture, quad, p.x,p.y)
+			
+		love.graphics.setColor(80,80,100,255)
+		love.graphics.rectangle("line",p.x,p.y,p.w,p.h+arena.wall_height/2)
 				
 		if debug then
 			love.graphics.setColor(255,0,0,255)

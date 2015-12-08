@@ -35,6 +35,14 @@ function player:init()
 	player.projectileDelay = 0.1
 	player.projectileCycle = 0
 	
+	
+	player.texture_front = love.graphics.newImage("data/textures/guy_front.png")
+	player.texture_back = love.graphics.newImage("data/textures/guy_back.png")
+	player.texture_left = love.graphics.newImage("data/textures/guy_left.png")
+	player.texture_right = love.graphics.newImage("data/textures/guy_right.png")
+	--default
+	player.texture = player.texture_front
+	
 	camera:setPosition(player.x+player.w/2,player.y +player.h/2)
 end
 
@@ -49,21 +57,25 @@ function player:shoot(dt)
 	--player shooting
 	if love.keyboard.isDown(binds.shoot_up) then 
 		player.dir = "up"
+		player.texture = player.texture_back
 		projectiles:add(player,"up",dt) 
 		return 
 	end
 	if love.keyboard.isDown(binds.shoot_down) then 
 		player.dir = "down"
+		player.texture = player.texture_front
 		projectiles:add(player,"down",dt)
 		return 
 	 end
 	if love.keyboard.isDown(binds.shoot_left) then 
 		player.dir = "left"
+		player.texture = player.texture_left
 		projectiles:add(player,"left",dt) 
 		return 
 	end
 	if love.keyboard.isDown(binds.shoot_right) then 
 		player.dir = "right"
+		player.texture = player.texture_right
 		projectiles:add(player,"right",dt) 
 		return 
 	end
@@ -80,18 +92,22 @@ function player:move(dt)
 
 	if love.keyboard.isDown(binds.move_left) then 
 		player.dir = "left"
+		player.texture = player.texture_left
 		player.newx = player.x -player.speed *dt 
 	end
 	if love.keyboard.isDown(binds.move_right) then 
 		player.dir = "right"
+		player.texture = player.texture_right
 		player.newx = player.x +player.speed *dt 
 	end
 	if love.keyboard.isDown(binds.move_up) then 
 		player.dir = "up"
+		player.texture = player.texture_back
 		player.newy = player.y -player.speed *dt 
 	end
 	if love.keyboard.isDown(binds.move_down) then 
 		player.dir = "down"
+		player.texture = player.texture_front
 		player.newy = player.y +player.speed *dt
 	 end
 	
@@ -144,10 +160,10 @@ end
 
 
 function player:setcamera(dt)
-	if player.x+player.w/2 > arena.x+WIDTH/3 and (player.x+player.w/2 < arena.x+arena.w-WIDTH/3) then
+	if player.x+player.w/2 > arena.x+WIDTH/3*camera.scaleX and (player.x+player.w/2 < arena.x+arena.w-WIDTH/3*camera.scaleX) then
 		camera.x = (player.x+player.w/2)
 	end
-	if player.y+player.h/2 > arena.y+HEIGHT/3 and (player.y+player.h/2 < arena.y+arena.h-HEIGHT/3) then
+	if player.y+player.h/2 > arena.y+HEIGHT/3*camera.scaleY and (player.y+player.h/2 < arena.y+arena.h-HEIGHT/3*camera.scaleY) then
 		camera.y = (player.y +player.h/2)
 	end
 end
@@ -159,8 +175,13 @@ end
 
 function player:draw()
 	--draw player
-	love.graphics.setColor(155,255,100,255)
-	love.graphics.rectangle("fill", player.x,player.y,player.w,player.h)
+	if debug then
+		love.graphics.setColor(155,255,100,255)
+		love.graphics.rectangle("fill", player.x,player.y,player.w,player.h)
+		love.graphics.setColor(255,255,255,255)
+		love.graphics.rectangle("line", player.x,player.y,player.w,player.h)
+
+	end
 	love.graphics.setColor(255,255,255,255)
-	love.graphics.rectangle("line", player.x,player.y,player.w,player.h)
+	love.graphics.draw(player.texture, player.x,player.y)
 end
