@@ -26,8 +26,13 @@ function projectiles:add(entity,dir,dt)
 		local x, y, w, h, xvel, yvel = 0
 		
 		if entity.weapon == "gun" then
-			w = 4
-			h = 4
+			if dir == "left" or dir == "right" then
+				w = 5
+				h = 2
+			else
+				w = 2
+				h = 5
+			end
 		end
 
 
@@ -42,8 +47,8 @@ function projectiles:add(entity,dir,dt)
 	
 		table.insert(projectiles, {
 			type = entity.weapon,
-			w = 4,
-			h = 4,
+			w = w,
+			h = h,
 			x = x -w/2 or 0,
 			y = y -h/2 or 0,
 			xvel = xvel or 0,
@@ -80,8 +85,11 @@ end
 
 function projectiles:draw()
 	local n = 0
-	for i,projectile in ipairs(projectiles) do
-		love.graphics.rectangle("line", projectile.x,projectile.y,projectile.w,projectile.h)
+	for i,p in ipairs(projectiles) do
+		if p.type == "gun" then
+			love.graphics.setColor(255,100,0,255)
+			love.graphics.rectangle("fill", p.x,p.y,p.w,p.h)
+		end
 		n = n +1
 	end
 	arena.projectiles = n

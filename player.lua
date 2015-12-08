@@ -21,9 +21,16 @@ function player:init()
 	player.y = arena.y + arena.h/2 - player.h/2
 	player.newx = player.x
 	player.newy = player.y
-	player.speed = 250
+	player.dir = "down"
+	player.speed = 200
 	player.score = 0
 	player.weapon = "gun"
+	
+	player.health = 72
+	player.maxhealth = 100
+	
+	player.mana = 22
+	player.maxmana = 100
 	
 	player.projectileDelay = 0.1
 	player.projectileCycle = 0
@@ -36,23 +43,49 @@ end
 
 function player:shoot(dt)
 	--player shooting
-	if love.keyboard.isDown(binds.shoot_up) then projectiles:add(player,"up",dt) return end
-	if love.keyboard.isDown(binds.shoot_down) then projectiles:add(player,"down",dt) return end
-	if love.keyboard.isDown(binds.shoot_left) then projectiles:add(player,"left",dt) return end
-	if love.keyboard.isDown(binds.shoot_right) then projectiles:add(player,"right",dt) return end
+	if love.keyboard.isDown(binds.shoot_up) then 
+		player.dir = "up"
+		projectiles:add(player,"up",dt) 
+		return 
+	end
+	if love.keyboard.isDown(binds.shoot_down) then 
+		player.dir = "down"
+		projectiles:add(player,"down",dt)
+		return 
+	 end
+	if love.keyboard.isDown(binds.shoot_left) then 
+		player.dir = "left"
+		projectiles:add(player,"left",dt) 
+		return 
+	end
+	if love.keyboard.isDown(binds.shoot_right) then 
+		player.dir = "right"
+		projectiles:add(player,"right",dt) 
+		return 
+	end
 end
-
 
 
 
 function player:move(dt)
 	--player movement
 
-	
-	if love.keyboard.isDown(binds.move_left) then player.newx = player.x -player.speed *dt end
-	if love.keyboard.isDown(binds.move_right) then player.newx = player.x +player.speed *dt end
-	if love.keyboard.isDown(binds.move_up) then player.newy = player.y -player.speed *dt end
-	if love.keyboard.isDown(binds.move_down) then player.newy = player.y +player.speed *dt end
+	if love.keyboard.isDown(binds.move_left) then 
+		player.dir = "left"
+		player.newx = player.x -player.speed *dt 
+	end
+	if love.keyboard.isDown(binds.move_right) then 
+		player.dir = "right"
+		player.newx = player.x +player.speed *dt 
+	end
+	if love.keyboard.isDown(binds.move_up) then 
+		player.dir = "up"
+		player.newy = player.y -player.speed *dt 
+	end
+	if love.keyboard.isDown(binds.move_down) then 
+		player.dir = "down"
+		player.newy = player.y +player.speed *dt
+	 end
 	
 	for _,w in ipairs(arena.walls) do
 		if collision:overlap(player.newx,player.newy,player.w,player.h, w.x,w.y,w.w,w.h) then
@@ -76,6 +109,8 @@ end
 
 function player:draw()
 	--draw player
+	love.graphics.setColor(155,255,100,255)
+	love.graphics.rectangle("fill", player.x,player.y,player.w,player.h)
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.rectangle("line", player.x,player.y,player.w,player.h)
 end

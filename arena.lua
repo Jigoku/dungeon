@@ -33,13 +33,19 @@ end
 function arena:draw()
 
 	--floor
-	love.graphics.setColor(0,78,31,255)
+	love.graphics.setColor(10,20,30,255)
 	love.graphics.rectangle("fill", 0,0,arena.w,arena.h)
+		
+	love.graphics.setColor(255,255,255,255)
+	love.graphics.rectangle("line", 0,0,arena.w,arena.h)
 	
 	--walls
-	love.graphics.setColor(30,30,30,255)	
+	
 	for i, w in ipairs(arena.walls) do
+		love.graphics.setColor(30,30,30,255)
 		love.graphics.rectangle("fill", w.x,w.y,w.w,w.h)
+		love.graphics.setColor(255,255,255,255)
+		love.graphics.rectangle("line", w.x,w.y,w.w,w.h)
 	end
 	
 end

@@ -60,14 +60,40 @@ function love.draw()
 		projectiles:draw()
 	camera:unset()
 
+
+	--hud health bar 
+	--behind
+	love.graphics.setColor(255,0,0,55)
+	love.graphics.rectangle("fill", 20,20,player.maxhealth*2,20)
+	--health value
+	love.graphics.setColor(150,0,0,255)
+	love.graphics.rectangle("fill", 20,20,player.health*2,20)
+	--outline
+	love.graphics.setColor(255,0,0,255)
+	love.graphics.rectangle("line", 20,20,player.maxhealth*2,20)
+	
+	
+	--hud mana bar 
+	--behind
+	love.graphics.setColor(255,0,255,55)
+	love.graphics.rectangle("fill", 20,45,player.maxmana*2,20)
+	--health value
+	love.graphics.setColor(150,0,255,255)
+	love.graphics.rectangle("fill", 20,45,player.mana*2,20)
+	--outline
+	love.graphics.setColor(255,0,255,255)
+	love.graphics.rectangle("line", 20,45,player.maxmana*2,20)
+	
+	
 	--debug misc
 	if debug then
 		love.graphics.setColor(255,255,255,155)
-		love.graphics.printf("fps: ".. love.timer.getFPS(),10,10,300,"left",0,1,1)
-		love.graphics.printf("x: ".. tostring(player.x),10,25,300,"left",0,1,1)
-		love.graphics.printf("y: ".. tostring(player.y),10,40,300,"left",0,1,1)
-		love.graphics.printf("projectiles: ".. tostring(arena.projectiles),10,55,300,"left",0,1,1)
-		love.graphics.printf("state: " .. (paused and "paused" or "running") ,10,70,300,"left",0,1,1)
+		love.graphics.printf("fps: ".. love.timer.getFPS(),love.graphics.getWidth()-100,10,300,"left",0,1,1)
+		love.graphics.printf("x: ".. math.ceil(player.x),love.graphics.getWidth()-100,25,300,"left",0,1,1)
+		love.graphics.printf("y: ".. math.ceil(player.y),love.graphics.getWidth()-100,40,300,"left",0,1,1)
+		love.graphics.printf("dir: ".. player.dir,love.graphics.getWidth()-100,55,300,"left",0,1,1)
+		love.graphics.printf("projectiles: ".. tostring(arena.projectiles),love.graphics.getWidth()-100,70,300,"left",0,1,1)
+		love.graphics.printf("state: " .. (paused and "paused" or "running") ,love.graphics.getWidth()-100,85,300,"left",0,1,1)
 	end
 
 end
