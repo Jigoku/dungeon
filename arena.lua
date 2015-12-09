@@ -37,15 +37,16 @@ function arena:init()
 	arena.wall_height = 50
 	
 	arena.wall_texture = love.graphics.newImage("data/textures/brick.png")
-	arena.wall_texture:setWrap("repeat", "repeat")
+	arena.wall_texture:setWrap("repeat", "clamp")
 	
 	arena.floor_texture = love.graphics.newImage("data/textures/checked.png")
 	arena.floor_texture:setWrap("repeat", "repeat")
 
 	arena.top_texture = love.graphics.newImage("data/textures/marble.png")
 	arena.top_texture:setWrap("repeat", "repeat")
+	
 	arena.pit_texture = love.graphics.newImage("data/textures/brick_pit.png")
-	arena.pit_texture:setWrap("repeat", nil)
+	arena.pit_texture:setWrap("repeat", "clamp")
 	
 	arena.shroud = love.graphics.newImage("data/textures/shroud.png")
 end
@@ -69,6 +70,7 @@ function arena:draw()
 	
 	end
 	
+	--pits
 	for _, p in pairs(arena.pits) do
 		love.graphics.setColor(0,0,0,255)
 		love.graphics.rectangle("fill",p.x,p.y,p.w,p.h+arena.wall_height/2)
@@ -77,8 +79,9 @@ function arena:draw()
 		
 		local quad = love.graphics.newQuad( 0,0, p.w, arena.wall_height, arena.pit_texture:getDimensions() )
 		love.graphics.draw(arena.pit_texture, quad, p.x,p.y)
-			
-		love.graphics.setColor(80,80,100,255)
+		
+		--outline shadow
+		love.graphics.setColor(40,40,50,255)
 		love.graphics.rectangle("line",p.x,p.y,p.w,p.h+arena.wall_height/2)
 				
 		if debug then
@@ -87,12 +90,13 @@ function arena:draw()
 		end
 	end
 	
-	
+	--traps
 	for _, st in pairs(arena.spiketraps) do
 		love.graphics.setColor(80,55,55,255)
 		love.graphics.rectangle("fill", st.x,st.y,st.w,st.h)
 	end
 	
+	--pickups
 	for _, p in pairs(arena.pickups) do
 	
 		--shadow
@@ -124,10 +128,11 @@ function arena:draw()
 	player:draw()
 	projectiles:draw()
 
+
 	--walls layer 2
 	for _, w in pairs(arena.walls) do
 		
-		love.graphics.setColor(50,50,50,255)
+		love.graphics.setColor(20,20,30,255)
 		local quad = love.graphics.newQuad( w.x,w.y-self.wall_height/2,w.w,w.h, arena.top_texture:getDimensions() )
 		love.graphics.draw(arena.top_texture, quad, w.x,w.y-self.wall_height/2)
 

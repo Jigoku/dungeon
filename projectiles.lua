@@ -14,6 +14,8 @@
  --]]
 projectiles = {}
 
+projectiles.arrow_texture = love.graphics.newImage("data/textures/arrow.png")
+
 
 function projectiles:add(entity,dir,dt)
 
@@ -37,15 +39,15 @@ function projectiles:add(entity,dir,dt)
 			entity.projectileDelay = 0.25
 			
 		--laser
-		elseif self:slot2name(entity.weaponslot) == "laser" then
+		elseif self:slot2name(entity.weaponslot) == "bow" then
 			if dir == "left" or dir == "right" then
-				w = 15
-				h = 2
+				w = self.arrow_texture:getWidth()
+				h = self.arrow_texture:getHeight()
 			else
-				w = 2
-				h = 15
+				w = self.arrow_texture:getHeight()
+				h = self.arrow_texture:getWidth()
 			end
-			velocity = 800
+			velocity = 400
 			damage = 10
 			entity.projectileDelay = 0.5
 		end
@@ -78,7 +80,7 @@ end
 
 function projectiles:slot2name(slot)
 	if slot == 1 then return "pistol"
-	elseif slot == 2 then return "laser" end
+	elseif slot == 2 then return "bow" end
 end
 
 function projectiles:main(dt)
@@ -109,9 +111,28 @@ function projectiles:draw()
 		if p.type == "pistol" then
 			love.graphics.setColor(255,100,0,255)
 			love.graphics.rectangle("fill", p.x,p.y,p.w,p.h)
-		elseif p.type == "laser" then
-			love.graphics.setColor(255,100,255,255)
-			love.graphics.rectangle("fill", p.x,p.y,p.w,p.h)
+		elseif p.type == "bow" then
+			love.graphics.setColor(255,255,255,255)
+			--love.graphics.rectangle("fill", p.x,p.y,p.w,p.h)
+			if p.yvel > 0 then
+				love.graphics.draw(
+					self.arrow_texture,p.x+self.arrow_texture:getWidth(),p.y+self.arrow_texture:getWidth(),
+					math.rad(90),-1,-1,0,self.arrow_texture:getWidth()
+				)
+			elseif p.yvel < 0 then
+				love.graphics.draw(
+					self.arrow_texture,p.x+self.arrow_texture:getWidth(),p.y,
+					math.rad(-90),-1,1,0,self.arrow_texture:getWidth()
+				)
+			elseif p.xvel > 0 then
+				love.graphics.draw(projectiles.arrow_texture,p.x+self.arrow_texture:getWidth(),p.y,0,-1,1,0)
+			elseif p.xvel < 0 then
+				love.graphics.draw(projectiles.arrow_texture,p.x,p.y)
+			end
+		end
+		
+		if debug then
+			love.graphics.rectangle("line",p.x,p.y,p.w,p.h)
 		end
 	end
 end

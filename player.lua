@@ -22,7 +22,7 @@ function player:init()
 	player.newx = player.x
 	player.newy = player.y
 	player.dir = "down"
-	player.speed = 200
+	player.speed = 100
 	player.score = 0
 	player.weaponslot = 1
 	
