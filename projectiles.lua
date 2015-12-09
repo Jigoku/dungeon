@@ -15,6 +15,7 @@
 projectiles = {}
 
 projectiles.arrow_texture = love.graphics.newImage("data/textures/arrow.png")
+projectiles.arrow_sound = love.audio.newSource("data/sounds/arrow.wav", "static")
 
 
 function projectiles:add(entity,dir,dt)
@@ -50,6 +51,7 @@ function projectiles:add(entity,dir,dt)
 			velocity = 400
 			damage = 10
 			entity.projectileDelay = 0.5
+			self.arrow_sound:play()
 		end
 
 		x = entity.x +entity.w/2
