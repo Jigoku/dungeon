@@ -17,11 +17,14 @@ WIDTH = default_width
 HEIGHT = default_height 
 
 require("binds")
+
+
+require("arena")
 require("camera")
 require("player")
-require("arena")
 require("collision")
 require("projectiles")
+require("enemies")
 require("shared")
 
 paused = false
@@ -44,6 +47,12 @@ function reset()
 	arena:addpickup("health",500,400)
 	arena:addpickup("mana",500,520)
 	arena:addpickup("mana",500,570)
+	
+	
+	enemies:test()
+	enemies:test()
+	enemies:test()
+	enemies:test()
 end
 
 function love.load()
@@ -60,6 +69,7 @@ function love.update(dt)
 	if paused then return end
 	
 	player:main(dt)
+	enemies:main(dt)
 	projectiles:main(dt)
 	
 

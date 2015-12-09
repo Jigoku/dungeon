@@ -95,14 +95,21 @@ function projectiles:main(dt)
 			table.remove(arena.projectiles, i)
 		end
 
-		for _, w in ipairs(arena.walls) do
+		for _, w in pairs(arena.walls) do
 			if collision:overlap(p.newx,p.newy,p.w,p.h, w.x,w.y,w.w,w.h) then
 				table.remove(arena.projectiles, i)
 			end
 		end
 		
-		p.x = math.round(p.newx)
-		p.y = math.round(p.newy)
+		for n, e in pairs(arena.enemies) do
+			if collision:overlap(p.newx,p.newy,p.w,p.h, e.x,e.y,e.w,e.h) then
+				table.remove(arena.projectiles, i)
+				table.remove(arena.enemies, n)
+			end
+		end
+		
+		p.x = p.newx
+		p.y = p.newy
 		n = n +1
 	end
 	arena.total_projectiles = n

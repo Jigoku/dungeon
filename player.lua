@@ -93,7 +93,7 @@ function player:move(dt)
 	if love.keyboard.isDown(binds.move_left) then 
 		player.dir = "left"
 		player.texture = player.texture_left
-		player.newx = player.x -player.speed *dt 
+		player.newx = player.x -player.speed *dt
 	end
 	if love.keyboard.isDown(binds.move_right) then 
 		player.dir = "right"
@@ -154,8 +154,8 @@ function player:move(dt)
 	if player.newx+player.w > arena.w then player.newx = arena.w-player.w -1 end
 	if player.newy+player.h > arena.h then player.newy = arena.h-player.h -1 end
 	
-	player.x = math.round(player.newx)
-	player.y = math.round(player.newy)
+	player.x = player.newx
+	player.y = player.newy
 end
 
 

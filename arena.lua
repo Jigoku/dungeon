@@ -33,6 +33,7 @@ function arena:init()
 	arena.pickups = {}
 	arena.projectiles = {}
 	arena.pits = {}
+	arena.enemies = {}
 	
 	arena.wall_height = 50
 	
@@ -126,6 +127,7 @@ function arena:draw()
 	end
 	
 	player:draw()
+	enemies:draw()
 	projectiles:draw()
 
 
