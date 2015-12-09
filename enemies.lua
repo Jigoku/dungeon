@@ -49,7 +49,7 @@ function enemies:main(dt)
 		end
 		
 		--walls
-		for i, w in pairs (arena.walls) do
+		for _, w in pairs (arena.walls) do
 			if collision:overlap(e.newx,e.newy,e.w,e.h,w.x,w.y,w.w,w.h) then
 				if collision:left(e,w) then e.newx = w.x -e.w -1 *dt end
 				if collision:right(e,w) then e.newx = w.x +w.w +1 *dt end
