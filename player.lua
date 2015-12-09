@@ -114,20 +114,20 @@ function player:move(dt)
 	for _,w in pairs(arena.walls) do
 		if collision:overlap(player.newx,player.newy,player.w,player.h, w.x,w.y,w.w,w.h) then
 		
-			if collision:left(player,w) then player.newx = w.x -player.w -1  end
-			if collision:right(player,w) then player.newx = w.x +w.w +1  end
-			if collision:top(player,w) then player.newy = w.y -player.h -1  end
-			if collision:bottom(player,w) then player.newy = w.y+w.h +1  end
+			if collision:left(player,w) then player.newx = w.x -player.w -1 *dt  end
+			if collision:right(player,w) then player.newx = w.x +w.w +1 *dt  end
+			if collision:top(player,w) then player.newy = w.y -player.h -1 *dt  end
+			if collision:bottom(player,w) then player.newy = w.y+w.h +1 *dt  end
 		end
 	end
 	
 	for _,p in pairs(arena.pits) do
 		if collision:overlap(player.newx,player.newy,player.w,player.h, p.x,p.y,p.w,p.h) then
 	
-			if collision:left(player,p) then player.newx = p.x -player.w -1  end
-			if collision:right(player,p) then player.newx = p.x +p.w +1  end
-			if collision:top(player,p) then player.newy = p.y -player.h -1  end
-			if collision:bottom(player,p) then player.newy = p.y+p.h +1  end
+			if collision:left(player,p) then player.newx = p.x -player.w -1 *dt  end
+			if collision:right(player,p) then player.newx = p.x +p.w +1 *dt  end
+			if collision:top(player,p) then player.newy = p.y -player.h -1 *dt  end
+			if collision:bottom(player,p) then player.newy = p.y+p.h +1 *dt  end
 		end
 	end
 	
@@ -149,10 +149,10 @@ function player:move(dt)
 		end
 	end
 	
-	if player.newx < arena.x then player.newx = arena.x +1 end
-	if player.newy < arena.y then player.newy = arena.y +1 end
-	if player.newx+player.w > arena.w then player.newx = arena.w-player.w -1 end
-	if player.newy+player.h > arena.h then player.newy = arena.h-player.h -1 end
+	if player.newx < arena.x then player.newx = arena.x +1 *dt end
+	if player.newy < arena.y then player.newy = arena.y +1 *dt end
+	if player.newx+player.w > arena.w then player.newx = arena.w-player.w -1 *dt end
+	if player.newy+player.h > arena.h then player.newy = arena.h-player.h -1 *dt end
 	
 	player.x = player.newx
 	player.y = player.newy
