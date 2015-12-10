@@ -26,11 +26,12 @@ function enemies:test()
 		w = w,
 		h = h,
 		speed = speed,
+		damage = 50,
 	})
 end
 
 function enemies:main(dt)
-	
+	local n = 0
 	for i, e in pairs(arena.enemies) do
 	
 		--move towards the player
@@ -45,7 +46,7 @@ function enemies:main(dt)
 			if collision:top(e,player) then e.newy = player.newy -e.h -1 *dt end
 			if collision:bottom(e,player) then e.newy = player.newy+player.h +1 *dt end
 			
-			player.health = player.health - 50*dt
+			--player.health = player.health - e.damage*dt
 		end
 		
 		--walls
@@ -72,8 +73,11 @@ function enemies:main(dt)
 		--update drawing position
 		e.x = e.newx
 		e.y = e.newy
-
+		
+		n = n + 1
 	end
+	
+	arena.total_enemies = n
 end
 
 
@@ -83,10 +87,7 @@ function enemies:draw()
 		love.graphics.draw(self.texture, e.x,e.y)
 		
 		if debug then
-			love.graphics.setColor(0,100,0,55)
-			love.graphics.rectangle("fill", e.x,e.y,e.w,e.h)
-			love.graphics.setColor(0,255,0,55)
-			love.graphics.rectangle("line", e.x,e.y,e.w,e.h)
+			drawbounds(e)
 		end
 	end
 

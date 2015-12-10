@@ -10,3 +10,11 @@ function love.graphics.newImage(...)
 	img:setFilter('nearest', 'nearest')
 	return img
 end
+
+
+function drawbounds(entity)
+	love.graphics.setColor(0,100,0,55)
+	love.graphics.rectangle("fill", entity.x,entity.y,entity.w,entity.h)
+	love.graphics.setColor(0,255,0,55)
+	love.graphics.rectangle("line", entity.x,entity.y,entity.w,entity.h)
+end

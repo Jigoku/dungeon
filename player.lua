@@ -175,13 +175,10 @@ end
 
 function player:draw()
 	--draw player
-	if debug then
-		love.graphics.setColor(155,255,100,255)
-		love.graphics.rectangle("fill", player.x,player.y,player.w,player.h)
-		love.graphics.setColor(255,255,255,255)
-		love.graphics.rectangle("line", player.x,player.y,player.w,player.h)
-
-	end
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.draw(player.texture, player.x,player.y)
+	
+	if debug then
+		drawbounds(player)
+	end
 end

@@ -99,31 +99,36 @@ function arena:draw()
 	
 	--pickups
 	for _, p in pairs(arena.pickups) do
-	
+		local x = p.x+p.w/2
+		local y = p.y+p.h/2
 		--shadow
 		love.graphics.push()
-		love.graphics.translate(p.x,p.y+p.h)
+		love.graphics.translate(x,y+p.h)
 		love.graphics.rotate(p.angle)
-		love.graphics.translate(-p.x,-(p.y+p.h))
+		love.graphics.translate(-x,-(y+p.h))
 	
 		love.graphics.setColor(0,0,0,155)
-		love.graphics.circle("fill", p.x,p.y+p.h,p.w,3)
+		love.graphics.circle("fill", x,y+p.h,p.w,3)
 		love.graphics.pop()
 	
 		--graphic
 		love.graphics.push()
-		love.graphics.translate(p.x,p.y)
+		love.graphics.translate(x,y)
 		love.graphics.rotate(p.angle)
-		love.graphics.translate(-p.x,-p.y)
+		love.graphics.translate(-x,-y)
 	
 		if p.type == "health" then
 			love.graphics.setColor(255,0,0,255)
-			love.graphics.circle("fill", p.x,p.y,p.w,3)
+			love.graphics.circle("fill", x,y,p.w,3)
 		elseif p.type == "mana" then
 			love.graphics.setColor(255,0,255,255)
-			love.graphics.circle("fill", p.x,p.y,p.w,3)
+			love.graphics.circle("fill", x,y,p.w,3)
 		end
 		love.graphics.pop()
+		
+		if debug then
+			drawbounds(p)
+		end
 	end
 	
 	player:draw()

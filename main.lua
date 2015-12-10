@@ -48,11 +48,9 @@ function reset()
 	arena:addpickup("mana",500,520)
 	arena:addpickup("mana",500,570)
 	
-	
-	enemies:test()
-	enemies:test()
-	enemies:test()
-	enemies:test()
+	for i=1,200 do
+		enemies:test()
+	end
 end
 
 function love.load()
@@ -122,6 +120,7 @@ function love.draw()
 		love.graphics.printf("projectiles: ".. tostring(arena.total_projectiles),WIDTH-100,70,300,"left",0,1,1)
 		love.graphics.printf("state: " .. (paused and "paused" or "running") ,WIDTH-100,85,300,"left",0,1,1)
 		love.graphics.printf("weapon: " .. projectiles:slot2name(player.weaponslot) ,WIDTH-100,100,300,"left",0,1,1)
+		love.graphics.printf("enemies: " .. arena.total_enemies ,WIDTH-100,115,300,"left",0,1,1)
 	end
 
 end
@@ -132,7 +131,9 @@ function love.keypressed(key)
 	if key == "`" then debug = not debug end
 	if key == "f1" then reset() end
 	
-	player:keypressed(key)
+	if not paused then
+		player:keypressed(key)
+	end
 end
 
 

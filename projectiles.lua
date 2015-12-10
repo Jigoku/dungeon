@@ -141,7 +141,7 @@ function projectiles:draw()
 		end
 		
 		if debug then
-			love.graphics.rectangle("line",p.x,p.y,p.w,p.h)
+			drawbounds(p)
 		end
 	end
 end
