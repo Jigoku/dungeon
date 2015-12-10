@@ -46,7 +46,7 @@ function enemies:main(dt)
 			if collision:top(e,player) then e.newy = player.newy -e.h -1 *dt end
 			if collision:bottom(e,player) then e.newy = player.newy+player.h +1 *dt end
 			
-			--player.health = player.health - e.damage*dt
+			player.health = player.health - e.damage*dt
 		end
 		
 		--walls

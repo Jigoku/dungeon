@@ -55,7 +55,7 @@ end
 
 
 function arena:draw()
-
+	
 	--floor
 	love.graphics.setColor(80,80,100,255)
 	
@@ -134,16 +134,23 @@ function arena:draw()
 	player:draw()
 	enemies:draw()
 	projectiles:draw()
-
-
+	
 	--walls layer 2
 	for _, w in pairs(arena.walls) do
-		
+		--shadow
+		love.graphics.setColor(0,0,0,100)
+		love.graphics.rectangle("fill", w.x+w.w, w.y, 20,w.h)
+	end
+	
+	--walls layer 3
+	for _, w in pairs(arena.walls) do
+
+		--top
 		love.graphics.setColor(20,20,30,255)
 		local quad = love.graphics.newQuad( w.x,w.y-self.wall_height/2,w.w,w.h, arena.top_texture:getDimensions() )
 		love.graphics.draw(arena.top_texture, quad, w.x,w.y-self.wall_height/2)
 
-		
+
 		if debug then
 			love.graphics.setColor(255,0,0,255)
 			love.graphics.rectangle("line", w.x,w.y,w.w,w.h)
@@ -151,7 +158,6 @@ function arena:draw()
 	end
 	
 
-	
 	
 	--shadow/shroud
 	love.graphics.setColor(0,0,0,200)
