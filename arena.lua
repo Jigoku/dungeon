@@ -142,8 +142,22 @@ function arena:draw()
 	--walls layer 2
 	for _, w in pairs(arena.walls) do
 		--shadow
-		love.graphics.setColor(0,0,0,100)
+		love.graphics.setColor(0,0,0,70)
 		love.graphics.rectangle("fill", w.x+w.w, w.y, 20,w.h)
+
+
+		local vertices = { 
+			w.x+w.w, 
+			w.y+w.h, 
+			
+			w.x+w.w+20,
+			w.y+w.h,
+			
+			w.x+w.w,
+			w.y+w.h+self.wall_height/2
+		 }
+		love.graphics.polygon("fill", vertices)
+		
 	end
 	
 	--walls layer 3
