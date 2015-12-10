@@ -27,6 +27,8 @@ function enemies:test()
 		h = h,
 		speed = speed,
 		damage = 50,
+		health = 20,
+		maxhealth = 20,
 	})
 end
 
@@ -83,12 +85,39 @@ end
 
 function enemies:draw()
 	for _, e in pairs(arena.enemies) do
+		--graphic
 		love.graphics.setColor(255,255,255,155)
 		love.graphics.draw(self.texture, e.x,e.y)
+		
+
+		--outline
+		--love.graphics.setColor(255,0,0,55)
+		--love.graphics.rectangle("line", e.x,e.y,e.maxhealth/10,4)
 		
 		if debug then
 			drawbounds(e)
 		end
 	end
+	
+	for _, e in pairs(arena.enemies) do
+		--health bar
+		love.graphics.setColor(255,0,0,55)
+		love.graphics.rectangle("fill", e.x+e.w/2-e.maxhealth/2,e.y-5,e.maxhealth,2)
+		--health value
+		love.graphics.setColor(0,255,0,100)
+		
+		love.graphics.rectangle("fill", e.x+e.w/2-e.maxhealth/2,e.y-5,e.health,2)
+	end
+end
 
+
+function enemies:die(enemy)
+	local seed = math.random(0,100)
+	if seed > 90 then
+		arena:addpickup("health",enemy.x+enemy.w/2,enemy.y+enemy.h/2)
+	end
+	if seed < 10 then
+		arena:addpickup("mana",enemy.x+enemy.w/2,enemy.y+enemy.h/2)
+	end
+	
 end

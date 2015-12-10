@@ -49,7 +49,7 @@ function projectiles:add(entity,dir,dt)
 				h = self.arrow_texture:getWidth()
 			end
 			velocity = 400
-			damage = 10
+			damage = 8
 			entity.projectileDelay = 0.5
 			self.arrow_sound:play()
 		end
@@ -104,7 +104,13 @@ function projectiles:main(dt)
 		for n, e in pairs(arena.enemies) do
 			if collision:overlap(p.newx,p.newy,p.w,p.h, e.x,e.y,e.w,e.h) then
 				table.remove(arena.projectiles, i)
-				table.remove(arena.enemies, n)
+				e.health = e.health - p.damage
+				
+				if e.health <= 0 then
+					enemies:die(e)
+					table.remove(arena.enemies, n)
+
+				end
 			end
 		end
 		
