@@ -131,9 +131,13 @@ function arena:draw()
 		end
 	end
 	
+	enemies:drawbehind()
 	player:draw()
-	enemies:draw()
+	enemies:drawinfront()
 	projectiles:draw()
+	enemies:drawhealth()
+	
+
 	
 	--walls layer 2
 	for _, w in pairs(arena.walls) do
