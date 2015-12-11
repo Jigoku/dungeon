@@ -19,7 +19,7 @@ enemies.texture = love.graphics.newImage("data/textures/ghost.png")
 function enemies:test()
 	w = 20
 	h = 20
-	speed = math.random(80,100)
+	speed = math.random(50,70)
 	table.insert(arena.enemies, {
 		x = math.random(arena.x+1, arena.x+arena.w-w -1),
 		y = math.random(arena.y+1, arena.y+arena.h-h -1),
@@ -132,6 +132,9 @@ function enemies:die(enemy)
 	end
 	if seed < 10 then
 		arena:addpickup("mana",enemy.x+enemy.w/2,enemy.y+enemy.h/2)
+	end
+	if seed >= 10 and seed <= 30 then
+		arena:addpickup("coin",enemy.x+enemy.w/2,enemy.y+enemy.h/2)
 	end
 	
 end

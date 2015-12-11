@@ -22,17 +22,17 @@ function player:init()
 	player.newx = player.x
 	player.newy = player.y
 	player.dir = "down"
-	player.speed = 100
+	player.speed = 80
 	player.score = 0
+	player.coins = 0
 	player.weaponslot = 1
 	
-	player.health = 72
+	player.health = 100
 	player.maxhealth = 100
 	
-	player.mana = 22
+	player.mana = 100
 	player.maxmana = 100
 	
-	player.projectileDelay = 0.1
 	player.projectileCycle = 0
 	
 	
@@ -157,6 +157,10 @@ function player:move(dt)
 						player.mana = player.maxmana
 					end
 				end
+			elseif p.type == "coin" then
+					player.coins = player.coins + p.value
+					table.remove(arena.pickups, i)
+
 			end
 		end
 	end

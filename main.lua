@@ -89,25 +89,25 @@ function love.draw()
 	--hud health bar 
 	--behind
 	love.graphics.setColor(255,0,0,55)
-	love.graphics.rectangle("fill", 20,20,player.maxhealth*2,20)
+	love.graphics.rectangle("fill", 20,20,player.maxhealth*2,10)
 	--health value
 	love.graphics.setColor(150,0,0,255)
-	love.graphics.rectangle("fill", 20,20,player.health*2,20)
+	love.graphics.rectangle("fill", 20,20,player.health*2,10)
 	--outline
 	love.graphics.setColor(255,0,0,255)
-	love.graphics.rectangle("line", 20,20,player.maxhealth*2,20)
+	love.graphics.rectangle("line", 20,20,player.maxhealth*2,10)
 	
 	
 	--hud mana bar 
 	--behind
 	love.graphics.setColor(255,0,255,55)
-	love.graphics.rectangle("fill", 20,45,player.maxmana*2,20)
+	love.graphics.rectangle("fill", 20,35,player.maxmana*2,10)
 	--health value
 	love.graphics.setColor(150,0,255,255)
-	love.graphics.rectangle("fill", 20,45,player.mana*2,20)
+	love.graphics.rectangle("fill", 20,35,player.mana*2,10)
 	--outline
 	love.graphics.setColor(255,0,255,255)
-	love.graphics.rectangle("line", 20,45,player.maxmana*2,20)
+	love.graphics.rectangle("line", 20,35,player.maxmana*2,10)
 	
 	
 	--debug misc
@@ -121,6 +121,7 @@ function love.draw()
 		love.graphics.printf("state: " .. (paused and "paused" or "running") ,WIDTH-100,85,300,"left",0,1,1)
 		love.graphics.printf("weapon: " .. projectiles:slot2name(player.weaponslot) ,WIDTH-100,100,300,"left",0,1,1)
 		love.graphics.printf("enemies: " .. arena.total_enemies ,WIDTH-100,115,300,"left",0,1,1)
+		love.graphics.printf("coins: " .. player.coins ,WIDTH-100,130,300,"left",0,1,1)
 	end
 
 end

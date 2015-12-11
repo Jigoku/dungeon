@@ -49,8 +49,8 @@ function projectiles:add(entity,dir,dt)
 				h = self.arrow_texture:getWidth()
 			end
 			velocity = 400
-			damage = 8
-			entity.projectileDelay = 0.5
+			damage = math.random(6,10)
+			entity.projectileDelay = 1.2
 			self.arrow_sound:play()
 		end
 

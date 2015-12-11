@@ -50,6 +50,10 @@ function arena:init()
 	arena.pit_texture:setWrap("repeat", "clamp")
 	
 	arena.shroud = love.graphics.newImage("data/textures/shroud.png")
+	
+	
+	arena.bgm = love.audio.newSource("data/music/zhelanov/dark_ambience.ogg")
+	arena.bgm:play()
 end
 
 
@@ -57,7 +61,7 @@ end
 function arena:draw()
 	
 	--floor
-	love.graphics.setColor(80,80,100,255)
+	love.graphics.setColor(50,50,60,255)
 	
 	local quad = love.graphics.newQuad( 0,0,arena.w,arena.h, arena.floor_texture:getDimensions() )
 	love.graphics.draw(arena.floor_texture, quad, 0,0)
@@ -108,7 +112,7 @@ function arena:draw()
 		love.graphics.translate(-x,-(y+p.h))
 	
 		love.graphics.setColor(0,0,0,155)
-		love.graphics.circle("fill", x,y+p.h,p.w,3)
+		love.graphics.circle("fill", x,y+p.h,p.w,p.segments)
 		love.graphics.pop()
 	
 		--graphic
@@ -118,11 +122,14 @@ function arena:draw()
 		love.graphics.translate(-x,-y)
 	
 		if p.type == "health" then
-			love.graphics.setColor(255,0,0,255)
-			love.graphics.circle("fill", x,y,p.w,3)
+			love.graphics.setColor(255,0,0,155)
+			love.graphics.circle("fill", x,y,p.w,p.segments)
 		elseif p.type == "mana" then
-			love.graphics.setColor(255,0,255,255)
-			love.graphics.circle("fill", x,y,p.w,3)
+			love.graphics.setColor(255,0,255,155)
+			love.graphics.circle("fill", x,y,p.w,p.segments)
+		elseif p.type == "coin" then
+			love.graphics.setColor(255,155,0,155)
+			love.graphics.circle("fill", x,y,p.w,p.segments)
 		end
 		love.graphics.pop()
 		
@@ -258,10 +265,17 @@ function arena:addpickup(type,x,y)
 		w = 7
 		h = 7
 		value = 10
+		segments = 3
 	elseif type == "mana" then
 		w = 7
 		h = 7
 		value = 10
+		segments = 3
+	elseif type == "coin" then
+		w = 5
+		h = 5
+		value = 1
+		segments = 5
 	end
 	table.insert(arena.pickups, {
 		type = type or nil,
@@ -270,6 +284,7 @@ function arena:addpickup(type,x,y)
 		w = w or 0,
 		h = h or 0,
 		value = value or 0,
-		angle = math.random(360)
+		angle = math.random(360),
+		segments = segments
 	})
 end
