@@ -149,6 +149,7 @@ function arena:draw()
 	
 	
 	enemies:drawinfront(arena.enemies)
+	enemies:drawhealth(arena.enemies)
 	projectiles:draw()
 
 	
