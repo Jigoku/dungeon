@@ -18,6 +18,9 @@ projectiles.arrow_texture = love.graphics.newImage("data/textures/arrow.png")
 projectiles.arrow_sound = love.audio.newSource("data/sounds/arrow.wav", "static")
 
 
+projectiles.icon_slot1 = love.graphics.newImage("data/textures/pistol.png")
+projectiles.icon_slot2 = love.graphics.newImage("data/textures/bow.png")
+
 function projectiles:add(entity,dir,dt)
 
 	if self:slot2name(entity.weaponslot) == nil then return end
@@ -82,7 +85,22 @@ function projectiles:add(entity,dir,dt)
 	end
 end
 
+function projectiles:slot2icon(slot)
+	if slot == 1 then return self.icon_slot1
+	elseif slot == 2 then return self.icon_slot2 
+	elseif slot == 3 then return nil 
+	elseif slot == 4 then return nil 
+	elseif slot == 5 then return nil 
+	elseif slot == 6 then return nil 
+	elseif slot == 7 then return nil 
+	elseif slot == 8 then return nil 
+	elseif slot == 9 then return nil 
+	elseif slot == 10 then return nil 
+	end
+end
+
 function projectiles:slot2name(slot)
+
 	if slot == 1 then return "pistol"
 	elseif slot == 2 then return "bow" 
 	elseif slot == 3 then return nil 

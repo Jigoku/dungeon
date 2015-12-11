@@ -35,6 +35,8 @@ function player:init()
 	
 	player.projectileCycle = 0
 	
+
+		
 	
 	player.texture_front = love.graphics.newImage("data/textures/guy_front.png")
 	player.texture_back = love.graphics.newImage("data/textures/guy_back.png")

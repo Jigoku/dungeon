@@ -175,12 +175,16 @@ function arena:draw()
 				end
 			end
 		
-			if debug then
-				love.graphics.setColor(255,0,0,255)
-				love.graphics.rectangle("line", st.x,st.y+st.offset,st.w,st.h)
-			end
+		end
+		
+		if debug then
+			love.graphics.setColor(155,0,155,255)
+			love.graphics.rectangle("line", st.x,st.y+st.offset,st.w,st.h)
 		end
 	end
+	
+	
+	
 	
 	enemies:drawinfront()
 	projectiles:draw()

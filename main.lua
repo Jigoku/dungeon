@@ -116,19 +116,30 @@ function love.draw()
 	
 	--weaponslots
 	local offset = 0
-	for i=1,10 do
-	
-			if player.weaponslot == i then
-			love.graphics.setColor(200,200,0,155)
+	for slot=1,10 do
+		if player.weaponslot == slot then	
+			love.graphics.setColor(100,100,100,50)
 			love.graphics.rectangle("fill", 230+offset,20,25,25)
-
+			
+			love.graphics.setColor(200,200,200,255)
+			love.graphics.rectangle("line", 230+offset,20,25,25)
+		else			
+			love.graphics.setColor(100,100,100,255)
+			love.graphics.rectangle("line", 230+offset,20,25,25)
 		end
-	
-		love.graphics.setColor(100,100,100,255)
-		love.graphics.rectangle("line", 230+offset,20,25,25)
-		offset = offset + 30
 		
 
+		
+		local icon = projectiles:slot2icon(slot)
+		if type(icon) == "userdata" then
+			love.graphics.setColor(255,255,255,255)
+			love.graphics.draw(icon,230+offset, 20)
+		end
+		
+		love.graphics.setColor(255,255,255,255)
+		love.graphics.print(slot, 230+offset,20)
+		
+		offset = offset + 30
 	end
 	
 	
@@ -141,7 +152,7 @@ function love.draw()
 		love.graphics.printf("dir: ".. player.dir,WIDTH-100,55,300,"left",0,1,1)
 		love.graphics.printf("projectiles: ".. tostring(arena.total_projectiles),WIDTH-100,70,300,"left",0,1,1)
 		love.graphics.printf("state: " .. (paused and "paused" or "running") ,WIDTH-100,85,300,"left",0,1,1)
-		love.graphics.printf("weapon: " .. projectiles:slot2name(player.weaponslot) ,WIDTH-100,100,300,"left",0,1,1)
+		love.graphics.printf("weapon: " .. tostring(projectiles:slot2name(player.weaponslot)) ,WIDTH-100,100,300,"left",0,1,1)
 		love.graphics.printf("enemies: " .. arena.total_enemies ,WIDTH-100,115,300,"left",0,1,1)
 		love.graphics.printf("coins: " .. player.coins ,WIDTH-100,130,300,"left",0,1,1)
 	end
