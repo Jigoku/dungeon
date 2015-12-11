@@ -92,8 +92,13 @@ function arena:draw()
 		love.graphics.draw(arena.pit_texture, quad, p.x,p.y)
 		
 		--outline shadow
-		love.graphics.setColor(40,40,50,255)
-		love.graphics.rectangle("line",p.x,p.y,p.w,p.h+arena.wall_height/2)
+		love.graphics.setColor(40,40,50,200)
+		--left
+		love.graphics.line(p.x,p.y,p.x,p.y+p.h+arena.wall_height/2)
+		--right
+		love.graphics.line(p.x+p.w,p.y,p.x+p.w,p.y+p.h+arena.wall_height/2)
+		--bottom
+		love.graphics.line(p.x,p.y+p.h+arena.wall_height/2, p.x+p.w, p.y+p.h+arena.wall_height/2)
 				
 		if debug then
 			love.graphics.setColor(255,0,0,255)

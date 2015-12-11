@@ -52,7 +52,7 @@ function reset()
 	arena:addpickup("mana",500,520)
 	arena:addpickup("mana",500,570)
 	
-	for i=1,0 do
+	for i=1,10 do
 		enemies:test()
 	end
 end

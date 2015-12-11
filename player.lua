@@ -181,7 +181,7 @@ end
 
 function player:setcamera(dt)
 	if player.x+player.w/2 > arena.x+WIDTH/3*camera.scaleX and (player.x+player.w/2 < arena.x+arena.w-WIDTH/3*camera.scaleX) then
-		camera.x = (player.x+player.w/2)
+		camera.x = (player.x +player.w/2)
 	end
 	if player.y+player.h/2 > arena.y+HEIGHT/3*camera.scaleY and (player.y+player.h/2 < arena.y+arena.h-HEIGHT/3*camera.scaleY) then
 		camera.y = (player.y +player.h/2)
