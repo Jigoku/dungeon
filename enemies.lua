@@ -104,16 +104,16 @@ function enemies:main(dt)
 end
 
 
-function enemies:drawbehind()
-	for _, e in pairs(arena.enemies) do
+function enemies:drawbehind(table)
+	for _, e in pairs(table) do
 		if e.y+e.h < player.y+player.h then
 			self:draw(e)
 		end
 	end
 end
 
-function enemies:drawinfront()
-	for _, e in pairs(arena.enemies) do
+function enemies:drawinfront(table)
+	for _, e in pairs(table) do
 		if e.y+e.h > player.y+player.h then
 			self:draw(e)
 		end
@@ -124,6 +124,13 @@ function enemies:draw(e)
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.draw(e.texture, e.x,e.y)
 			
+	--health bar
+	love.graphics.setColor(255,0,0,55)
+	love.graphics.rectangle("fill", e.x+e.w/2-e.maxhealth/2,e.y-5,e.maxhealth,2)
+	--health value
+	love.graphics.setColor(0,255,0,100)
+	love.graphics.rectangle("fill", e.x+e.w/2-e.maxhealth/2,e.y-5,e.health,2)
+		
 	if debug then
 		love.graphics.setColor(255,255,255,255)
 		love.graphics.print(e.name, e.x+e.w/2-e.maxhealth/2,e.y-15,0,0.5)		
@@ -131,18 +138,7 @@ function enemies:draw(e)
 	end
 end
 
-function enemies:drawhealth()
-	for _, e in pairs(arena.enemies) do
-		--health bar
-		love.graphics.setColor(255,0,0,55)
-		love.graphics.rectangle("fill", e.x+e.w/2-e.maxhealth/2,e.y-5,e.maxhealth,2)
-		--health value
-		love.graphics.setColor(0,255,0,100)
-		love.graphics.rectangle("fill", e.x+e.w/2-e.maxhealth/2,e.y-5,e.health,2)
-		
-	end
-	
-end
+
 
 function enemies:die(enemy)
 	local seed = math.random(0,100)

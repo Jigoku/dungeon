@@ -17,14 +17,17 @@ player = {}
 function player:init()
 	player.w = 30
 	player.h = 30
-	player.x = arena.x + arena.w/2 - player.w/2
-	player.y = arena.y + arena.h/2 - player.h/2
-	player.newx = player.x
-	player.newy = player.y
+	player.spawnx = arena.x + arena.w/2 - player.w/2
+	player.spawny = arena.y + arena.h/2 - player.h/2
+	player.x = player.spawnx
+	player.y = player.spawny
+	player.newx = player.spawnx
+	player.newy = player.spawny
 	player.dir = "down"
 	player.speed = 80
 	player.score = 0
 	player.coins = 0
+	player.lives = 3
 	player.health = 100
 	player.maxhealth = 100
 	player.mana = 100
@@ -209,7 +212,23 @@ function player:setcamera(dt)
 end
 
 function player:state(dt)
-	if player.health < 1 then print("game over") reset() end
+	if player.health < 1 then 
+		player.lives = player.lives -1
+		player.health = player.maxhealth
+		
+		camera.x = player.spawnx
+		camera.y = player.spawny
+		player.x = player.spawnx
+		player.y = player.spawny
+		player.newx = player.spawnx
+		player.newy = player.spawny
+		
+
+		if player.lives < 0 then print("game over")
+			print("game over") 
+			reset() 
+		end
+	end
 	if player.mana < 1 then player.mana = 0 end
 end
 

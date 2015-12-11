@@ -79,12 +79,7 @@ function love.update(dt)
 	arena:main(dt)
 	enemies:main(dt)
 	projectiles:main(dt)
-	
-
-	for _,p in pairs(arena.pickups) do
-		p.angle = p.angle + dt * math.pi*2
-		p.angle = p.angle % (2*math.pi)
-	end
+	pickups:main(dt)
 end
 
 function love.draw()

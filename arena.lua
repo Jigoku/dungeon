@@ -15,9 +15,9 @@
 arena = {}
 
 
-
 function arena:init()
-	math.randomseed( os.time() )
+
+
 	--properties
 	arena.x = 0
 	arena.y = 0
@@ -123,7 +123,7 @@ function arena:draw()
 	end
 	
 	pickups:draw(arena.pickups)
-	enemies:drawbehind()
+	enemies:drawbehind(arena.enemies)
 	player:draw()
 	
 	
@@ -148,12 +148,8 @@ function arena:draw()
 	end
 	
 	
-	
-	
-	enemies:drawinfront()
+	enemies:drawinfront(arena.enemies)
 	projectiles:draw()
-	enemies:drawhealth()
-	
 
 	
 	--walls layer 2
@@ -271,7 +267,7 @@ function arena:addspiketrap(x,y,w,h)
 		w = arena.spike_down_texture:getWidth(),
 		h = arena.spike_down_texture:getHeight()-offset,
 		cycle = math.random (0,20)/10,
-		delay = 2,
+		delay = 1,
 		active = false,
 
 	})

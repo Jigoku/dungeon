@@ -37,25 +37,38 @@ function hud:draw()
 	--hud health bar 
 	--behind
 	love.graphics.setColor(205,0,0,55)
-	love.graphics.rectangle("fill", 10,10,player.maxhealth*2,10)
+	love.graphics.rectangle("fill", 10,10,player.maxhealth,10)
 	--health value
 	love.graphics.setColor(150,0,0,255)
-	love.graphics.rectangle("fill", 10,10,player.health*2,10)
+	love.graphics.rectangle("fill", 10,10,player.health,10)
 	--outline
 	love.graphics.setColor(100,100,100,255)
-	love.graphics.rectangle("line", 10,10,player.maxhealth*2,10)
+	love.graphics.rectangle("line", 10,10,player.maxhealth,10)
 	
 	
 	--hud mana bar 
 	--behind
 	love.graphics.setColor(205,0,205,55)
-	love.graphics.rectangle("fill", 10,25,player.maxmana*2,10)
+	love.graphics.rectangle("fill", 10,25,player.maxmana,10)
 	--health value
 	love.graphics.setColor(100,0,155,255)
-	love.graphics.rectangle("fill", 10,25,player.mana*2,10)
+	love.graphics.rectangle("fill", 10,25,player.mana,10)
 	--outline
 	love.graphics.setColor(100,100,100,255)
-	love.graphics.rectangle("line", 10,25,player.maxmana*2,10)
+	love.graphics.rectangle("line", 10,25,player.maxmana,10)
+	
+	
+	--coins
+	love.graphics.setColor(100,100,100,255)
+	love.graphics.print(player.coins .. " COIN"..(player.coins == 1 and "" or "S"), 120,8)
+	
+	--lives
+	local offset = 0
+	for life=1,player.lives do
+		love.graphics.setColor(100,0,0,255)
+		love.graphics.rectangle("fill",120+offset,25, 10,10)
+		offset = offset +15
+	end
 	
 	--weaponslots
 	local offset = 0
