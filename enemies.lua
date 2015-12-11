@@ -86,32 +86,27 @@ end
 function enemies:drawbehind()
 	for _, e in pairs(arena.enemies) do
 		if e.y+e.h < player.y+player.h then
-			
-			love.graphics.setColor(255,255,255,155)
-			love.graphics.draw(self.texture, e.x,e.y)
-			
-			if debug then
-				drawbounds(e)
-			end
+			self:draw(e)
 		end
 	end
 end
-
-
 
 function enemies:drawinfront()
 	for _, e in pairs(arena.enemies) do
 		if e.y+e.h > player.y+player.h then
-			love.graphics.setColor(255,255,255,155)
-			love.graphics.draw(self.texture, e.x,e.y)
-			
-			if debug then
-				drawbounds(e)
-			end
+			self:draw(e)
 		end
 	end
 end
 
+function enemies:draw(e) 
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.draw(self.texture, e.x,e.y)
+			
+	if debug then
+		drawbounds(e)
+	end
+end
 
 function enemies:drawhealth()
 	for _, e in pairs(arena.enemies) do

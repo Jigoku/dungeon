@@ -26,16 +26,14 @@ require("collision")
 require("projectiles")
 require("enemies")
 require("shared")
-
+require("hud")
+require("pickups")
 paused = false
 debug = false
 
---test hud properties
-hud = {}
-hud.w = 600
-hud.h = 45
-hud.scale = 1.1
 
+	
+		
 function reset()
 	arena:init()
 	player:init()
@@ -95,72 +93,8 @@ function love.draw()
 	camera:set()
 		arena:draw()
 	camera:unset()
-
-
-
-	--hud canvas
-	hud.canvas = love.graphics.newCanvas( hud.w, hud.h)
-	love.graphics.setCanvas(hud.canvas)
-	hud.canvas:clear()
-	hud.canvas:setFilter("nearest", "nearest")
-	love.graphics.setColor(0,0,255,100)
-	love.graphics.rectangle("fill", 0,0,hud.canvas:getWidth(),hud.canvas:getHeight() )
 	
-	--hud health bar 
-	--behind
-	love.graphics.setColor(205,0,0,55)
-	love.graphics.rectangle("fill", 10,10,player.maxhealth*2,10)
-	--health value
-	love.graphics.setColor(150,0,0,255)
-	love.graphics.rectangle("fill", 10,10,player.health*2,10)
-	--outline
-	love.graphics.setColor(100,100,100,255)
-	love.graphics.rectangle("line", 10,10,player.maxhealth*2,10)
-	
-	
-	--hud mana bar 
-	--behind
-	love.graphics.setColor(205,0,205,55)
-	love.graphics.rectangle("fill", 10,25,player.maxmana*2,10)
-	--health value
-	love.graphics.setColor(100,0,155,255)
-	love.graphics.rectangle("fill", 10,25,player.mana*2,10)
-	--outline
-	love.graphics.setColor(100,100,100,255)
-	love.graphics.rectangle("line", 10,25,player.maxmana*2,10)
-	
-	--weaponslots
-	local offset = 0
-	for slot=1,10 do
-		if player.weaponslot == slot then	
-			love.graphics.setColor(100,100,100,50)
-			love.graphics.rectangle("fill", 220+offset,10,25,25)
-			
-			love.graphics.setColor(200,200,200,255)
-			love.graphics.rectangle("line", 220+offset,10,25,25)
-		else			
-			love.graphics.setColor(100,100,100,255)
-			love.graphics.rectangle("line", 220+offset,10,25,25)
-		end
-		
-
-		
-		local icon = projectiles:slot2icon(slot)
-		if type(icon) == "userdata" then
-			love.graphics.setColor(255,255,255,255)
-			love.graphics.draw(icon,220+offset, 10)
-		end
-		
-		love.graphics.setColor(255,255,255,255)
-		love.graphics.print(slot, 220+offset,10)
-		
-		offset = offset + 30
-	end
-	
-	love.graphics.setCanvas()
-	love.graphics.setColor(255, 255, 255, 255)
-	
-	love.graphics.draw(hud.canvas, WIDTH/2-hud.w/2,HEIGHT-hud.h,0,hud.scale)
+	hud:draw()
 	
 	
 	

@@ -122,43 +122,7 @@ function arena:draw()
 	
 	end
 	
-	--pickups
-	for _, p in pairs(arena.pickups) do
-		local x = p.x+p.w/2
-		local y = p.y+p.h/2
-		--shadow
-		love.graphics.push()
-		love.graphics.translate(x,y+p.h)
-		love.graphics.rotate(p.angle)
-		love.graphics.translate(-x,-(y+p.h))
-	
-		love.graphics.setColor(0,0,0,155)
-		love.graphics.circle("fill", x,y+p.h,p.w,p.segments)
-		love.graphics.pop()
-	
-		--graphic
-		love.graphics.push()
-		love.graphics.translate(x,y)
-		love.graphics.rotate(p.angle)
-		love.graphics.translate(-x,-y)
-	
-		if p.type == "health" then
-			love.graphics.setColor(255,0,0,155)
-			love.graphics.circle("fill", x,y,p.w,p.segments)
-		elseif p.type == "mana" then
-			love.graphics.setColor(155,0,255,155)
-			love.graphics.circle("fill", x,y,p.w,p.segments)
-		elseif p.type == "coin" then
-			love.graphics.setColor(255,155,0,155)
-			love.graphics.circle("fill", x,y,p.w,p.segments)
-		end
-		love.graphics.pop()
-		
-		if debug then
-			drawbounds(p)
-		end
-	end
-	
+	pickups:draw(arena.pickups)
 	enemies:drawbehind()
 	player:draw()
 	

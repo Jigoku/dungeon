@@ -27,6 +27,8 @@ function player:init()
 	player.coins = 0
 	player.weaponslot = 1
 	
+	player.camerashift = 80
+	
 	player.health = 100
 	player.maxhealth = 100
 	
@@ -190,12 +192,22 @@ end
 
 
 function player:setcamera(dt)
-	if player.x+player.w/2 > arena.x+WIDTH/3*camera.scaleX and (player.x+player.w/2 < arena.x+arena.w-WIDTH/3*camera.scaleX) then
-		camera.x = (player.x +player.w/2)
+	if player.x < camera.x -self.camerashift then
+		camera.x = camera.x - player.speed *dt
 	end
-	if player.y+player.h/2 > arena.y+HEIGHT/3*camera.scaleY and (player.y+player.h/2 < arena.y+arena.h-HEIGHT/3*camera.scaleY) then
-		camera.y = (player.y +player.h/2)
+	
+	if player.x > camera.x +self.camerashift then
+		camera.x = camera.x + player.speed *dt
 	end
+	
+	if player.y < camera.y -self.camerashift then
+		camera.y = camera.y - player.speed *dt
+	end
+	
+	if player.y > camera.y +self.camerashift then
+		camera.y = camera.y + player.speed *dt
+	end
+	
 end
 
 function player:state(dt)
