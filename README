@@ -1,1 +1,11 @@
-A topdown shooter made in lua/love2d
+A topdown dungeon made in lua/love2d
+
+Implemented features
+- enemies
+- spike traps
+- walls
+- pits
+- weapon slots
+- health/mana pickups
+
+

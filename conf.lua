@@ -1,4 +1,4 @@
-name = "topdownshooter"
+name = "dungeon"
 author = "ricky thomson"
 version = 0.1
 build = ""
