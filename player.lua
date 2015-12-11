@@ -25,15 +25,16 @@ function player:init()
 	player.speed = 80
 	player.score = 0
 	player.coins = 0
-	player.weaponslot = 1
-	
-	player.camerashift = 80
-	
 	player.health = 100
 	player.maxhealth = 100
-	
 	player.mana = 100
 	player.maxmana = 100
+	
+	player.weaponslot = 1		--default weaponslot
+	
+	player.camerashift = 80 	-- value until camera moves
+	
+	
 	
 	player.projectileCycle = 0
 	
@@ -196,7 +197,7 @@ function player:setcamera(dt)
 		camera.x = camera.x - player.speed *dt
 	end
 	
-	if player.x > camera.x +self.camerashift then
+	if player.x+player.w > camera.x +self.camerashift then
 		camera.x = camera.x + player.speed *dt
 	end
 	
@@ -204,9 +205,11 @@ function player:setcamera(dt)
 		camera.y = camera.y - player.speed *dt
 	end
 	
-	if player.y > camera.y +self.camerashift then
+	if player.y+player.h > camera.y +self.camerashift then
 		camera.y = camera.y + player.speed *dt
 	end
+	
+
 	
 end
 
@@ -222,5 +225,9 @@ function player:draw()
 	
 	if debug then
 		drawbounds(player)
+	
+		love.graphics.setColor(255,255,0,50)
+		love.graphics.rectangle("line",camera.x - self.camerashift, camera.y - self.camerashift, 
+		self.camerashift*2, self.camerashift*2)
 	end
 end

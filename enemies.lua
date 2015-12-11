@@ -14,21 +14,38 @@
  --]]
 enemies = {}
 
-enemies.texture = love.graphics.newImage("data/textures/ghost.png")
+enemies.ghost = love.graphics.newImage("data/textures/ghost.png")
+enemies.ghost_boss = love.graphics.newImage("data/textures/ghost_boss.png")
 
 function enemies:test()
-	w = 20
-	h = 20
 	speed = math.random(50,70)
 	table.insert(arena.enemies, {
 		x = math.random(arena.x+1, arena.x+arena.w-w -1),
 		y = math.random(arena.y+1, arena.y+arena.h-h -1),
-		w = w,
-		h = h,
+		w = self.ghost:getWidth(),
+		h = self.ghost:getHeight(),
 		speed = speed,
 		damage = 50,
 		health = 20,
 		maxhealth = 20,
+		texture = self.ghost,
+	})
+end
+
+function enemies:testboss()
+	w = 100
+	h = 100
+	speed = math.random(20,30)
+	table.insert(arena.enemies, {
+		x = math.random(arena.x+1, arena.x+arena.w-w -1),
+		y = math.random(arena.y+1, arena.y+arena.h-h -1),
+		w = self.ghost_boss:getWidth(),
+		h = self.ghost_boss:getHeight(),
+		speed = speed,
+		damage = 100,
+		health = 100,
+		maxhealth = 100,
+		texture = self.ghost_boss,
 	})
 end
 
@@ -101,7 +118,7 @@ end
 
 function enemies:draw(e) 
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.draw(self.texture, e.x,e.y)
+	love.graphics.draw(e.texture, e.x,e.y)
 			
 	if debug then
 		drawbounds(e)
