@@ -17,6 +17,7 @@ arena = {}
 
 
 function arena:init()
+	math.randomseed( os.time() )
 	--properties
 	arena.x = 0
 	arena.y = 0
@@ -52,6 +53,11 @@ function arena:init()
 	arena.shroud = love.graphics.newImage("data/textures/shroud.png")
 	
 	
+	arena.spike_up_texture =  love.graphics.newImage("data/textures/spike_up.png")
+	arena.spike_down_texture =  love.graphics.newImage("data/textures/spike_down.png")
+
+	
+
 	arena.bgm = love.audio.newSource("data/music/zhelanov/dark_ambience.ogg")
 	arena.bgm:play()
 end
@@ -95,10 +101,20 @@ function arena:draw()
 		end
 	end
 	
-	--traps
+	--traps behind
 	for _, st in pairs(arena.spiketraps) do
-		love.graphics.setColor(80,55,55,255)
-		love.graphics.rectangle("fill", st.x,st.y,st.w,st.h)
+		--base/floor
+		love.graphics.setColor(45,55,60,255)
+		love.graphics.rectangle("fill", st.x,st.y+st.offset,st.w,st.h)
+		
+		love.graphics.setColor(100,100,100,255)
+		love.graphics.draw(arena.spike_down_texture, st.x,st.y)
+
+
+			if st.active then
+				love.graphics.draw(arena.spike_up_texture, st.x,st.y)
+			end
+	
 	end
 	
 	--pickups
@@ -140,6 +156,27 @@ function arena:draw()
 	
 	enemies:drawbehind()
 	player:draw()
+	
+	
+	
+	--traps in front  (move traps into module)
+	for _, st in pairs(arena.spiketraps) do
+		if player.y+player.h > st.y then
+		
+			if player.y < st.y then
+				love.graphics.setColor(100,100,100,255)
+				if st.active then
+					love.graphics.draw(arena.spike_up_texture, st.x,st.y)
+				end
+			end
+		
+			if debug then
+				love.graphics.setColor(255,0,0,255)
+				love.graphics.rectangle("line", st.x,st.y+st.offset,st.w,st.h)
+			end
+		end
+	end
+	
 	enemies:drawinfront()
 	projectiles:draw()
 	enemies:drawhealth()
@@ -252,11 +289,18 @@ function arena:addpit(x,y,w,h)
 	})
 end
 function arena:addspiketrap(x,y,w,h)
+	--math.randomseed( os.time() )
+	local offset = 10 -- collision offset
 	table.insert(arena.spiketraps, {
 		x = x or 0,
 		y = y or 0,
-		w = w or 0,
-		h = h or 0,
+		offset = offset,
+		w = arena.spike_down_texture:getWidth(),
+		h = arena.spike_down_texture:getHeight()-offset,
+		cycle = math.random (0,20)/10,
+		delay = 2,
+		active = false,
+
 	})
 end
 
@@ -287,4 +331,16 @@ function arena:addpickup(type,x,y)
 		angle = math.random(360),
 		segments = segments
 	})
+end
+
+
+function arena:main(dt)
+	for _, st in pairs(arena.spiketraps) do
+		st.cycle = math.max(0, st.cycle - dt)
+		
+		if st.cycle <= 0 then
+			st.cycle = st.delay
+			st.active = not st.active
+		end
+	end
 end

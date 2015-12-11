@@ -39,6 +39,10 @@ function reset()
 	arena:addwall(300,200,100,400)
 	arena:addwall(800,400,200,200)
 	arena:addspiketrap(600,800,60,60)	
+	arena:addspiketrap(630,800,60,60)	
+	arena:addspiketrap(660,800,60,60)	
+	arena:addspiketrap(630,900,60,60)	
+	arena:addspiketrap(660,900,60,60)	
 
 	arena:addpit(500,800,60,60)	
 	arena:addpit(300,900,130,100)	
@@ -48,7 +52,7 @@ function reset()
 	arena:addpickup("mana",500,520)
 	arena:addpickup("mana",500,570)
 	
-	for i=1,10 do
+	for i=1,0 do
 		enemies:test()
 	end
 end
@@ -67,6 +71,7 @@ function love.update(dt)
 	if paused then return end
 	
 	player:main(dt)
+	arena:main(dt)
 	enemies:main(dt)
 	projectiles:main(dt)
 	
