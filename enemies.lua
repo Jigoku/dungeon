@@ -24,11 +24,13 @@ function enemies:test()
 		y = math.random(arena.y+1, arena.y+arena.h-h -1),
 		w = self.ghost:getWidth(),
 		h = self.ghost:getHeight(),
+		offset = 2,
 		speed = speed,
 		damage = 50,
 		health = 20,
 		maxhealth = 20,
 		texture = self.ghost,
+		name = "ghost",
 	})
 end
 
@@ -41,11 +43,13 @@ function enemies:testboss()
 		y = math.random(arena.y+1, arena.y+arena.h-h -1),
 		w = self.ghost_boss:getWidth(),
 		h = self.ghost_boss:getHeight(),
+		offset = 20,
 		speed = speed,
 		damage = 100,
 		health = 100,
 		maxhealth = 100,
 		texture = self.ghost_boss,
+		name = "big ghost",
 	})
 end
 
@@ -121,6 +125,8 @@ function enemies:draw(e)
 	love.graphics.draw(e.texture, e.x,e.y)
 			
 	if debug then
+		love.graphics.setColor(255,255,255,255)
+		love.graphics.print(e.name, e.x+e.w/2-e.maxhealth/2,e.y-15,0,0.5)		
 		drawbounds(e)
 	end
 end
@@ -135,6 +141,7 @@ function enemies:drawhealth()
 		love.graphics.rectangle("fill", e.x+e.w/2-e.maxhealth/2,e.y-5,e.health,2)
 		
 	end
+	
 end
 
 function enemies:die(enemy)

@@ -34,12 +34,7 @@ function player:init()
 	
 	player.camerashift = 80 	-- value until camera moves
 	
-	
-	
 	player.projectileCycle = 0
-	
-
-		
 	
 	player.texture_front = love.graphics.newImage("data/textures/guy_front.png")
 	player.texture_back = love.graphics.newImage("data/textures/guy_back.png")

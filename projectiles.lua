@@ -131,7 +131,9 @@ function projectiles:main(dt)
 		end
 		
 		for n, e in pairs(arena.enemies) do
-			if collision:overlap(p.newx,p.newy,p.w,p.h, e.x,e.y,e.w,e.h) then
+			if collision:overlap(p.newx,p.newy,p.w,p.h, 
+				e.x+e.offset,e.y+e.offset,e.w-(e.offset*2),e.h-(e.offset*2)) then
+				
 				table.remove(arena.projectiles, i)
 				e.health = e.health - p.damage
 				
