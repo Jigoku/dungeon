@@ -30,5 +30,5 @@ binds.slot6 = "6"
 binds.slot7 = "7"
 binds.slot8 = "8"
 binds.slot9 = "9"
-binds.slot0 = "0"
+binds.slot10 = "0"
 

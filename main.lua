@@ -93,26 +93,43 @@ function love.draw()
 
 	--hud health bar 
 	--behind
-	love.graphics.setColor(255,0,0,55)
+	love.graphics.setColor(205,0,0,55)
 	love.graphics.rectangle("fill", 20,20,player.maxhealth*2,10)
 	--health value
 	love.graphics.setColor(150,0,0,255)
 	love.graphics.rectangle("fill", 20,20,player.health*2,10)
 	--outline
-	love.graphics.setColor(255,0,0,255)
+	love.graphics.setColor(100,100,100,255)
 	love.graphics.rectangle("line", 20,20,player.maxhealth*2,10)
 	
 	
 	--hud mana bar 
 	--behind
-	love.graphics.setColor(255,0,255,55)
+	love.graphics.setColor(205,0,205,55)
 	love.graphics.rectangle("fill", 20,35,player.maxmana*2,10)
 	--health value
-	love.graphics.setColor(150,0,255,255)
+	love.graphics.setColor(100,0,155,255)
 	love.graphics.rectangle("fill", 20,35,player.mana*2,10)
 	--outline
-	love.graphics.setColor(255,0,255,255)
+	love.graphics.setColor(100,100,100,255)
 	love.graphics.rectangle("line", 20,35,player.maxmana*2,10)
+	
+	--weaponslots
+	local offset = 0
+	for i=1,10 do
+	
+			if player.weaponslot == i then
+			love.graphics.setColor(200,200,0,155)
+			love.graphics.rectangle("fill", 230+offset,20,25,25)
+
+		end
+	
+		love.graphics.setColor(100,100,100,255)
+		love.graphics.rectangle("line", 230+offset,20,25,25)
+		offset = offset + 30
+		
+
+	end
 	
 	
 	--debug misc

@@ -85,6 +85,14 @@ end
 function player:keypressed(key)
 	if key == binds.slot1 then player.weaponslot = 1 end
 	if key == binds.slot2 then player.weaponslot = 2 end
+	if key == binds.slot3 then player.weaponslot = 3 end
+	if key == binds.slot4 then player.weaponslot = 4 end
+	if key == binds.slot5 then player.weaponslot = 5 end
+	if key == binds.slot6 then player.weaponslot = 6 end
+	if key == binds.slot7 then player.weaponslot = 7 end
+	if key == binds.slot8 then player.weaponslot = 8 end
+	if key == binds.slot9 then player.weaponslot = 9 end
+	if key == binds.slot10 then player.weaponslot = 10 end
 end
 
 function player:move(dt)

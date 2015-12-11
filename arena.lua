@@ -146,7 +146,7 @@ function arena:draw()
 			love.graphics.setColor(255,0,0,155)
 			love.graphics.circle("fill", x,y,p.w,p.segments)
 		elseif p.type == "mana" then
-			love.graphics.setColor(255,0,255,155)
+			love.graphics.setColor(155,0,255,155)
 			love.graphics.circle("fill", x,y,p.w,p.segments)
 		elseif p.type == "coin" then
 			love.graphics.setColor(255,155,0,155)
