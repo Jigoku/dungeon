@@ -148,7 +148,7 @@ function enemies:draw(e)
 	
 	if debug then
 		love.graphics.setColor(255,255,255,255)
-		love.graphics.print(e.name, e.x+e.w/2-e.maxhealth/2,e.y-15,0,0.5)		
+		love.graphics.print(e.name, e.x+e.w/2-e.maxhealth/2,e.y-15,0,0.4)		
 		drawbounds(e)
 	end
 end

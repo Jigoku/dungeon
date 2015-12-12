@@ -151,7 +151,7 @@ function player:move(dt)
 		end
 	end
 	
-	for _, st in pairs(arena.spiketraps) do
+	for _, st in pairs(arena.traps) do
 		if collision:overlap(player.newx,player.newy,player.w,player.h, st.x,st.y+st.offset,st.w,st.h) then
 			if player.y < st.y then
 				if st.active then

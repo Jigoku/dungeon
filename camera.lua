@@ -5,6 +5,7 @@ camera.scaleX = 1
 camera.scaleY = 1
 camera.rotation = 0
 
+
 function camera:set()
   love.graphics.push()
   love.graphics.rotate(-self.rotation)

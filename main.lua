@@ -26,6 +26,7 @@ require("enemies")
 require("shared")
 require("hud")
 require("pickups")
+require("traps")
 
 --mode switches
 paused = false
@@ -126,11 +127,11 @@ end
 
 function love.keypressed(key)
 	if key == "escape" then love.event.quit() end
-	if key == "`" then debug = not debug end
+	if key == binds.debug then debug = not debug end
 	
 	if not editing then
-		if key == "p" then paused = not paused end
-		if key == "f1" then reset() loadmap() end
+		if key == binds.pause then paused = not paused end
+		if key == " " then reset() loadmap() end
 	end
 	
 	if not paused then

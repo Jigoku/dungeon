@@ -13,6 +13,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
 binds = {}
+binds.pause = "p"
+binds.action = "e"
 binds.move_up = "w"
 binds.move_down = "s"
 binds.move_left = "a"
@@ -31,4 +33,13 @@ binds.slot7 = "7"
 binds.slot8 = "8"
 binds.slot9 = "9"
 binds.slot10 = "0"
+
+binds.show_quest = "g"
+binds.show_inventory = "i"
+binds.show_map = "m"
+binds.show_help = "f1"
+binds.show_console = "f11"
+
+binds.screenshot = "f12"
+binds.debug = "f11"
 

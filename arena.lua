@@ -30,7 +30,7 @@ function arena:init()
 	
 	--world entities
 	arena.walls = {}
-	arena.spiketraps = {}
+	arena.traps = {}
 	arena.pickups = {}
 	arena.projectiles = {}
 	arena.pits = {}
@@ -111,46 +111,12 @@ function arena:draw()
 		end
 	end
 	
-	--traps behind
-	for _, st in pairs(arena.spiketraps) do
-		--base/floor
-		love.graphics.setColor(45,55,60,255)
-		love.graphics.rectangle("fill", st.x,st.y+st.offset,st.w,st.h)
-		
-		love.graphics.setColor(100,100,100,255)
-		love.graphics.draw(arena.spike_down_texture, st.x,st.y)
-
-
-			if st.active then
-				love.graphics.draw(arena.spike_up_texture, st.x,st.y)
-			end
-	
-	end
-	
+	traps:drawbehind(arena.traps)
 	pickups:draw(arena.pickups)
 	enemies:drawbehind(arena.enemies)
 	player:draw()
 	
-	
-	
-	--traps in front  (move traps into module)
-	for _, st in pairs(arena.spiketraps) do
-		if player.y+player.h > st.y then
-		
-			if player.y < st.y then
-				love.graphics.setColor(100,100,100,255)
-				if st.active then
-					love.graphics.draw(arena.spike_up_texture, st.x,st.y)
-				end
-			end
-		
-		end
-		
-		if debug then
-			love.graphics.setColor(155,0,155,255)
-			love.graphics.rectangle("line", st.x,st.y+st.offset,st.w,st.h)
-		end
-	end
+	traps:drawinfront(arena.traps)
 	
 	
 	enemies:drawinfront(arena.enemies)
@@ -266,7 +232,7 @@ end
 function arena:addspiketrap(x,y,w,h)
 	--math.randomseed( os.time() )
 	local offset = 10 -- collision offset
-	table.insert(arena.spiketraps, {
+	table.insert(arena.traps, {
 		x = x or 0,
 		y = y or 0,
 		offset = offset,
@@ -310,13 +276,5 @@ end
 
 
 function arena:main(dt)
-	if editing then return end
-	for _, st in pairs(arena.spiketraps) do
-		st.cycle = math.max(0, st.cycle - dt)
-		
-		if st.cycle <= 0 then
-			st.cycle = st.delay
-			st.active = not st.active
-		end
-	end
+	traps:main(arena.traps,dt)
 end
