@@ -17,6 +17,9 @@ enemies = {}
 enemies.ghost = love.graphics.newImage("data/textures/ghost.png")
 enemies.ghost_boss = love.graphics.newImage("data/textures/ghost_boss.png")
 
+enemies.sound_ghost_die =  love.audio.newSource("data/sounds/ghost_die.wav", "static")
+enemies.sound_ghost_boss_die =  love.audio.newSource("data/sounds/ghost_boss_die.wav", "static")
+
 function enemies:test()
 	speed = math.random(50,70)
 	table.insert(arena.enemies, {
@@ -49,7 +52,7 @@ function enemies:testboss()
 		health = 100,
 		maxhealth = 100,
 		texture = self.ghost_boss,
-		name = "big ghost",
+		name = "ghost_boss",
 	})
 end
 
@@ -74,11 +77,24 @@ function enemies:main(dt)
 		
 		--walls
 		for _, w in pairs (arena.walls) do
-			if collision:overlap(e.newx,e.newy,e.w,e.h,w.x,w.y,w.w,w.h) then
+			if collision:overlap(e.newx,e.newy,e.w,e.h,w.x,w.y,w.w,w.h+(arena.wall_height/2)-(e.h/2)) then
 				if collision:left(e,w) then e.newx = w.x -e.w -1 *dt end
 				if collision:right(e,w) then e.newx = w.x +w.w +1 *dt end
 				if collision:top(e,w) then e.newy = w.y -e.h -1 *dt end
-				if collision:bottom(e,w) then e.newy = w.y+w.h +1 *dt end
+							
+				local y = collision:ret_bottom_overlap(e,w)
+				if y then e.newy = y +1 *dt end
+			end
+		end
+		
+		for _, p in pairs (arena.pits) do
+			if collision:overlap(e.newx,e.newy,e.w,e.h,p.x,p.y,p.w,p.h+(arena.wall_height/2)-(e.h/2)) then
+				if collision:left(e,p) then e.newx = p.x -e.w -1 *dt end
+				if collision:right(e,p) then e.newx = p.x +p.w +1 *dt end
+				if collision:top(e,p) then e.newy = p.y -e.h -1 *dt end
+							
+				local y = collision:ret_bottom_overlap(e,p)
+				if y then e.newy = y +1 *dt end
 			end
 		end
 		
@@ -154,4 +170,9 @@ function enemies:die(enemy)
 		arena:addpickup("coin",enemy.x+enemy.w/2,enemy.y+enemy.h/2)
 	end
 	
+	if enemy.name == "ghost" then
+		self.sound_ghost_die:play()
+	elseif enemy.name == "ghost_boss" then
+		self.sound_ghost_boss_die:play()
+	end
 end

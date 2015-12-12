@@ -123,22 +123,26 @@ function player:move(dt)
 	 end
 	
 	for _,w in pairs(arena.walls) do
-		if collision:overlap(player.newx,player.newy,player.w,player.h, w.x,w.y,w.w,w.h) then
+		if collision:overlap(player.newx,player.newy,player.w,player.h, w.x,w.y,w.w,w.h+(arena.wall_height/2)-(player.h/2)) then
 		
 			if collision:left(player,w) then player.newx = w.x -player.w -1 *dt  end
 			if collision:right(player,w) then player.newx = w.x +w.w +1 *dt  end
 			if collision:top(player,w) then player.newy = w.y -player.h -1 *dt  end
-			if collision:bottom(player,w) then player.newy = w.y+w.h +1 *dt  end
+			
+			local y = collision:ret_bottom_overlap(player,w)
+			if y then player.newy = y +1 *dt end
 		end
 	end
 	
 	for _,p in pairs(arena.pits) do
-		if collision:overlap(player.newx,player.newy,player.w,player.h, p.x,p.y,p.w,p.h) then
+		if collision:overlap(player.newx,player.newy,player.w,player.h, p.x,p.y,p.w,p.h+(arena.wall_height/2)-(player.h/2)) then
 	
 			if collision:left(player,p) then player.newx = p.x -player.w -1 *dt  end
 			if collision:right(player,p) then player.newx = p.x +p.w +1 *dt  end
 			if collision:top(player,p) then player.newy = p.y -player.h -1 *dt  end
-			if collision:bottom(player,p) then player.newy = p.y+p.h +1 *dt  end
+			
+			local y = collision:ret_bottom_overlap(player,p)
+			if y then player.newy = y +1 *dt end
 		end
 	end
 	

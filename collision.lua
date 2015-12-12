@@ -43,6 +43,14 @@ function collision:bottom(a,b)
 end
 
 
+
+--used for walking in front of world object such as a wall or pit (overlapping)
+function collision:ret_bottom_overlap(a,b)
+	local y = (b.y+b.h)+(arena.wall_height/2)-(a.h/2)
+	if a.newy <= y and a.y >= y then return y end
+end
+
+
 function collision:bounds(o) 
 	return  (o.newx < arena.x) or
 			(o.newy < arena.y) or

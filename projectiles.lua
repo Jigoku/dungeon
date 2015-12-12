@@ -15,7 +15,9 @@
 projectiles = {}
 
 projectiles.arrow_texture = love.graphics.newImage("data/textures/arrow.png")
-projectiles.arrow_sound = love.audio.newSource("data/sounds/arrow.wav", "static")
+
+projectiles.arrow_fire_sound = love.audio.newSource("data/sounds/arrow_fire.wav", "static")
+projectiles.arrow_hit_sound = love.audio.newSource("data/sounds/arrow_hit.wav", "static")
 
 
 projectiles.icon_slot1 = love.graphics.newImage("data/textures/pistol.png")
@@ -56,7 +58,7 @@ function projectiles:add(entity,dir,dt)
 			velocity = 400
 			damage = math.random(6,10)
 			entity.projectileDelay = 1.2
-			self.arrow_sound:play()
+			self.arrow_fire_sound:play()
 		end
 
 		x = entity.x +entity.w/2
@@ -136,11 +138,11 @@ function projectiles:main(dt)
 				
 				table.remove(arena.projectiles, i)
 				e.health = e.health - p.damage
+				self.arrow_hit_sound:play()
 				
 				if e.health <= 0 then
 					enemies:die(e)
 					table.remove(arena.enemies, n)
-
 				end
 			end
 		end

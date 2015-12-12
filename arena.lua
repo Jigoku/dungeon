@@ -36,10 +36,12 @@ function arena:init()
 	arena.pits = {}
 	arena.enemies = {}
 	
-	arena.wall_height = 50
+
 	
 	arena.wall_texture = love.graphics.newImage("data/textures/brick.png")
 	arena.wall_texture:setWrap("repeat", "clamp")
+	
+	arena.wall_height = arena.wall_texture:getHeight()
 	
 	arena.floor_texture = love.graphics.newImage("data/textures/checked.png")
 	arena.floor_texture:setWrap("repeat", "repeat")
@@ -102,7 +104,7 @@ function arena:draw()
 				
 		if debug then
 			love.graphics.setColor(255,0,0,255)
-			love.graphics.rectangle("line", p.x,p.y,p.w,p.h)
+			love.graphics.rectangle("line", p.x,p.y,p.w,p.h+arena.wall_height/2)
 		end
 	end
 	
@@ -185,7 +187,7 @@ function arena:draw()
 
 		if debug then
 			love.graphics.setColor(255,0,0,255)
-			love.graphics.rectangle("line", w.x,w.y,w.w,w.h)
+			love.graphics.rectangle("line", w.x,w.y,w.w,w.h+arena.wall_height/2)
 		end
 	end
 	
