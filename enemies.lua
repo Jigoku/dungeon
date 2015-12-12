@@ -34,6 +34,7 @@ function enemies:test()
 		maxhealth = 20,
 		texture = self.ghost,
 		name = "ghost",
+		flying = true,
 	})
 end
 
@@ -53,6 +54,7 @@ function enemies:testboss()
 		maxhealth = 100,
 		texture = self.ghost_boss,
 		name = "ghost_boss",
+		flying = true,
 	})
 end
 
@@ -87,14 +89,16 @@ function enemies:main(dt)
 			end
 		end
 		
-		for _, p in pairs (arena.pits) do
-			if collision:overlap(e.newx,e.newy,e.w,e.h,p.x,p.y,p.w,p.h+(arena.wall_height/2)-(e.h/2)) then
-				if collision:left(e,p) then e.newx = p.x -e.w -1 *dt end
-				if collision:right(e,p) then e.newx = p.x +p.w +1 *dt end
-				if collision:top(e,p) then e.newy = p.y -e.h -1 *dt end
+		if not e.flying then
+			for _, p in pairs (arena.pits) do
+				if collision:overlap(e.newx,e.newy,e.w,e.h,p.x,p.y,p.w,p.h+(arena.wall_height/2)-(e.h/2)) then
+					if collision:left(e,p) then e.newx = p.x -e.w -1 *dt end
+					if collision:right(e,p) then e.newx = p.x +p.w +1 *dt end
+					if collision:top(e,p) then e.newy = p.y -e.h -1 *dt end
 							
-				local y = collision:ret_bottom_overlap(e,p)
-				if y then e.newy = y +1 *dt end
+					local y = collision:ret_bottom_overlap(e,p)
+					if y then e.newy = y +1 *dt end
+				end
 			end
 		end
 		
