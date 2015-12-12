@@ -15,6 +15,8 @@
  
  pickups = {}
  
+ pickups.coin_sound = love.audio.newSource("data/sounds/coin.wav", "static")
+ 
  function pickups:draw(table)
  	--pickups
 	for _, p in pairs(table) do

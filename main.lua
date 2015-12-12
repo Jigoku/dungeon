@@ -63,6 +63,8 @@ function reset()
 end
 
 function love.load()
+	math.randomseed(os.time())
+	
 	love.graphics.setBackgroundColor(0,0,0,255)
 	reset()
 end

@@ -177,6 +177,7 @@ function player:move(dt)
 					end
 				end
 			elseif p.type == "coin" then
+					pickups.coin_sound:play()
 					player.coins = player.coins + p.value
 					table.remove(arena.pickups, i)
 
