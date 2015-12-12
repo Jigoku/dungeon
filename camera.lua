@@ -27,8 +27,8 @@ end
 
 function camera:scale(sx, sy)
   sx = sx or 1
-  self.scaleX = self.scaleX * sx
-  self.scaleY = self.scaleY * (sy or sx)
+  self.scaleX = self.scaleX + sx
+  self.scaleY = self.scaleY + (sy or sx)
 end
 
 function camera:setPosition(x, y)
@@ -40,5 +40,4 @@ function camera:setScale(sx, sy)
   self.scaleX = sx or self.scaleX
   self.scaleY = sy or self.scaleY
 end
-
 

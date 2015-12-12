@@ -119,6 +119,7 @@ function love.draw()
 		love.graphics.printf("weapon: " .. tostring(projectiles:slot2name(player.weaponslot)) ,WIDTH-100,100,300,"left",0,1,1)
 		love.graphics.printf("enemies: " .. arena.total_enemies ,WIDTH-100,115,300,"left",0,1,1)
 		love.graphics.printf("coins: " .. player.coins ,WIDTH-100,130,300,"left",0,1,1)
+		love.graphics.printf("camscale: " .. camera.scaleX ,WIDTH-100,145,300,"left",0,1,1)
 	end
 
 end
@@ -141,38 +142,23 @@ end
 
 
 function love.mousepressed(x, y, button)
-	pressedPosX = x
-	pressedPosY = y
-
-	print (x,y,button)
-	print (camera.scaleX)
-	if editing then
+	if editing or debug then
 		--zoom camera
 		
 		local scaleX,scaleY
 		if button == "wu" then 
 			if camera.scaleX > 0.2 then
-				scaleX = camera.scaleX - 0.1 
-				scaleY = camera.scaleY - 0.1 
+				camera:scale(-0.1,-0.1)
 			else
-				scaleX = 0.1
-				scaleY = 0.1
+				camera:setScale(0.1,0.1)
 			end
-			
-			camera.scaleX = scaleX
-			camera.scaleY = scaleY
 		end
 		if button == "wd" then 
 			if camera.scaleX < 4 then
-				scaleX = camera.scaleX + 0.1 
-				scaleY = camera.scaleY + 0.1 
+				camera:scale(0.1,0.1)
 			else
-				scaleX = 4
-				scaleY = 4
+				camera:setScale(4,4)
 			end
-			
-			camera.scaleX = scaleX
-			camera.scaleY = scaleY
 		end
 	end
 end

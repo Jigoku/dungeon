@@ -16,8 +16,7 @@ arena = {}
 
 
 function arena:init()
-	camera.scaleX = 0.6
-	camera.scaleY = 0.6
+	camera:setScale(0.6,0.6)
 
 	--properties
 	arena.x = 0
