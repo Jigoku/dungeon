@@ -117,6 +117,7 @@ function projectiles:slot2name(slot)
 end
 
 function projectiles:main(dt)
+	if editing then return end
 	local n = 0
 	for i, p in pairs(arena.projectiles) do
 		p.newx = p.x + p.xvel *dt

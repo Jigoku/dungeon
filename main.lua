@@ -17,8 +17,6 @@ WIDTH = default_width
 HEIGHT = default_height 
 
 require("binds")
-
-
 require("arena")
 require("camera")
 require("player")
@@ -28,16 +26,13 @@ require("enemies")
 require("shared")
 require("hud")
 require("pickups")
+
+--mode switches
 paused = false
 debug = false
-
-
+editing = false
 	
-		
-function reset()
-	arena:init()
-	player:init()
-	
+function loadmap()
 	--test map
 	arena:addwall(100,100,500,200)
 	arena:addwall(300,200,100,400)
@@ -55,10 +50,19 @@ function reset()
 	arena:addpickup("health",500,400)
 	arena:addpickup("mana",500,520)
 	arena:addpickup("mana",500,570)
+end
+
+
+function reset()
+	love.audio.stop()
+	arena:init()
+	player:init()
 	
-	enemies:testboss()
-	for i=1,10 do
-		enemies:test()
+	if not editing then
+		enemies:testboss()
+		for i=1,10 do
+			enemies:test()
+		end
 	end
 end
 
@@ -66,7 +70,13 @@ function love.load()
 	math.randomseed(os.time())
 	
 	love.graphics.setBackgroundColor(0,0,0,255)
-	reset()
+	
+	if not editing then
+		reset()
+		loadmap()
+	else
+		reset()
+	end
 end
 
 function love.resize(w,h)
@@ -81,7 +91,8 @@ function love.update(dt)
 	arena:main(dt)
 	enemies:main(dt)
 	projectiles:main(dt)
-	pickups:main(dt)
+	pickups:main(dt)	
+
 end
 
 function love.draw()
@@ -114,15 +125,55 @@ end
 
 function love.keypressed(key)
 	if key == "escape" then love.event.quit() end
-	if key == "p" then paused = not paused end
 	if key == "`" then debug = not debug end
-	if key == "f1" then reset() end
+	
+	if not editing then
+		if key == "p" then paused = not paused end
+		if key == "f1" then reset() loadmap() end
+	end
 	
 	if not paused then
 		player:keypressed(key)
 	end
+	
+	
 end
 
 
+function love.mousepressed(x, y, button)
+	pressedPosX = x
+	pressedPosY = y
 
+	print (x,y,button)
+	print (camera.scaleX)
+	if editing then
+		--zoom camera
+		
+		local scaleX,scaleY
+		if button == "wu" then 
+			if camera.scaleX > 0.2 then
+				scaleX = camera.scaleX - 0.1 
+				scaleY = camera.scaleY - 0.1 
+			else
+				scaleX = 0.1
+				scaleY = 0.1
+			end
+			
+			camera.scaleX = scaleX
+			camera.scaleY = scaleY
+		end
+		if button == "wd" then 
+			if camera.scaleX < 4 then
+				scaleX = camera.scaleX + 0.1 
+				scaleY = camera.scaleY + 0.1 
+			else
+				scaleX = 4
+				scaleY = 4
+			end
+			
+			camera.scaleX = scaleX
+			camera.scaleY = scaleY
+		end
+	end
+end
 

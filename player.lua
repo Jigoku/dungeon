@@ -24,7 +24,7 @@ function player:init()
 	player.newx = player.spawnx
 	player.newy = player.spawny
 	player.dir = "down"
-	player.speed = 80
+	player.speed = (editing and 200 or 80)
 	player.score = 0
 	player.coins = 0
 	player.lives = 3
@@ -46,7 +46,7 @@ function player:init()
 	--default
 	player.texture = player.texture_front
 	
-	camera:setPosition(player.x+player.w/2,player.y +player.h/2)
+	camera:setPosition(player.x+player.w/2, player.y+player.h/2)
 end
 
 function player:main(dt)
@@ -57,6 +57,7 @@ function player:main(dt)
 end
 
 function player:shoot(dt)
+	if editing then return end
 	--player shooting
 	if love.keyboard.isDown(binds.shoot_up) then 
 		player.dir = "up"
@@ -86,16 +87,18 @@ end
 
 
 function player:keypressed(key)
-	if key == binds.slot1 then player.weaponslot = 1 end
-	if key == binds.slot2 then player.weaponslot = 2 end
-	if key == binds.slot3 then player.weaponslot = 3 end
-	if key == binds.slot4 then player.weaponslot = 4 end
-	if key == binds.slot5 then player.weaponslot = 5 end
-	if key == binds.slot6 then player.weaponslot = 6 end
-	if key == binds.slot7 then player.weaponslot = 7 end
-	if key == binds.slot8 then player.weaponslot = 8 end
-	if key == binds.slot9 then player.weaponslot = 9 end
-	if key == binds.slot10 then player.weaponslot = 10 end
+	if not editing then
+		if key == binds.slot1 then player.weaponslot = 1 end
+		if key == binds.slot2 then player.weaponslot = 2 end
+		if key == binds.slot3 then player.weaponslot = 3 end
+		if key == binds.slot4 then player.weaponslot = 4 end
+		if key == binds.slot5 then player.weaponslot = 5 end
+		if key == binds.slot6 then player.weaponslot = 6 end
+		if key == binds.slot7 then player.weaponslot = 7 end
+		if key == binds.slot8 then player.weaponslot = 8 end
+		if key == binds.slot9 then player.weaponslot = 9 end
+		if key == binds.slot10 then player.weaponslot = 10 end
+	end
 end
 
 function player:move(dt)
@@ -121,6 +124,8 @@ function player:move(dt)
 		player.texture = player.texture_front
 		player.newy = player.y +player.speed *dt
 	 end
+	
+	if not editing then
 	
 	for _,w in pairs(arena.walls) do
 		if collision:overlap(player.newx,player.newy,player.w,player.h, w.x,w.y,w.w,w.h+(arena.wall_height/2)-(player.h/2)) then
@@ -190,12 +195,21 @@ function player:move(dt)
 	if player.newx+player.w > arena.w then player.newx = arena.w-player.w -1 *dt end
 	if player.newy+player.h > arena.h then player.newy = arena.h-player.h -1 *dt end
 	
+	end
+	
 	player.x = player.newx
 	player.y = player.newy
 end
 
 
 function player:setcamera(dt)
+
+	if editing then
+		camera.x = player.x+player.w/2
+		camera.y = player.y+player.h/2
+		return
+	end
+	
 	if player.x < camera.x -self.camerashift then
 		camera.x = camera.x - player.speed *dt
 	end
@@ -217,6 +231,7 @@ function player:setcamera(dt)
 end
 
 function player:state(dt)
+	if editing then return end
 	if player.health < 1 then 
 		player.lives = player.lives -1
 		player.health = player.maxhealth
@@ -231,7 +246,7 @@ function player:state(dt)
 
 		if player.lives < 0 then print("game over")
 			print("game over") 
-			reset() 
+			reset() loadmap()
 		end
 	end
 	if player.mana < 1 then player.mana = 0 end
@@ -240,7 +255,9 @@ end
 function player:draw()
 	--draw player
 	love.graphics.setColor(255,255,255,255)
-	love.graphics.draw(player.texture, player.x,player.y)
+	if not editing then
+		love.graphics.draw(player.texture, player.x,player.y)
+	end
 	
 	if debug then
 		drawbounds(player)

@@ -59,6 +59,8 @@ function enemies:testboss()
 end
 
 function enemies:main(dt)
+	if editing then return end
+
 	local n = 0
 	for i, e in pairs(arena.enemies) do
 	

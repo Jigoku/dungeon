@@ -24,6 +24,11 @@ hud.quad = love.graphics.newQuad( 0,0, hud.w, hud.h, hud.texture:getDimensions()
 hud.canvas = love.graphics.newCanvas( hud.w, hud.h)
 
 function hud:draw()
+	if editing then
+		--editor hud drawn here
+		love.graphics.setColor(255,20,10,255)
+		love.graphics.print("editing",20,20)
+	else
 	--hud canvas
 	love.graphics.setCanvas(hud.canvas)
 	hud.canvas:clear()
@@ -102,4 +107,5 @@ function hud:draw()
 	love.graphics.setColor(255, 255, 255, 255)
 	
 	love.graphics.draw(hud.canvas, WIDTH/2-(hud.w*hud.scale)/2,HEIGHT-(hud.h*hud.scale)-(5*hud.scale),0,hud.scale)
+	end
 end

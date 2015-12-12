@@ -16,7 +16,8 @@ arena = {}
 
 
 function arena:init()
-
+	camera.scaleX = 0.6
+	camera.scaleY = 0.6
 
 	--properties
 	arena.x = 0
@@ -61,7 +62,10 @@ function arena:init()
 	
 
 	arena.bgm = love.audio.newSource("data/music/zhelanov/dark_ambience.ogg")
-	arena.bgm:play()
+	
+	if not editing then 
+		arena.bgm:play() 
+	end
 end
 
 
@@ -192,7 +196,7 @@ function arena:draw()
 	end
 	
 
-	
+	if not editing then
 	--shadow/shroud
 	love.graphics.setColor(0,0,0,200)
 	love.graphics.draw(self.shroud, player.x+player.w/2-self.shroud:getWidth()/2,player.y+player.h/2-self.shroud:getHeight()/2)
@@ -240,7 +244,7 @@ function arena:draw()
 		self.shroud:getWidth(),
 		self.shroud:getHeight()/2
 	)
-	
+	end
 end
 
 
@@ -307,6 +311,7 @@ end
 
 
 function arena:main(dt)
+	if editing then return end
 	for _, st in pairs(arena.spiketraps) do
 		st.cycle = math.max(0, st.cycle - dt)
 		
