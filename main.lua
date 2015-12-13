@@ -13,8 +13,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
  
-WIDTH = default_width
-HEIGHT = default_height 
+
 
 require("binds")
 require("arena")
@@ -27,11 +26,10 @@ require("shared")
 require("hud")
 require("pickups")
 require("traps")
-
+require("editor")
 --mode switches
 paused = false
 debug = false
-editing = false
 	
 function loadmap()
 	--test map
@@ -74,6 +72,14 @@ function love.load(args)
 		if arg == "-debug" then debug = true end
 	end
 	
+	WIDTH = love.window.getWidth()
+	HEIGHT = love.window.getHeight()
+	
+	icon = love.image.newImageData( "data/textures/bow.png")
+	love.window.setIcon( icon )
+	love.mouse.setVisible( false )
+	
+	
 	math.randomseed(os.time())
 	
 	love.graphics.setBackgroundColor(0,0,0,255)
@@ -84,6 +90,8 @@ function love.load(args)
 	else
 		reset()
 	end
+	
+	
 end
 
 function love.resize(w,h)
@@ -100,6 +108,8 @@ function love.update(dt)
 	projectiles:main(dt)
 	pickups:main(dt)	
 
+	if not editing then return end
+	editor:main(dt)
 end
 
 function love.draw()
@@ -149,9 +159,8 @@ end
 
 
 function love.mousepressed(x, y, button)
-	if editing or debug then
+	if editing then
 		--zoom camera
-		
 		local scaleX,scaleY
 		if button == "wu" then 
 			if camera.scaleX > 0.2 then
@@ -167,6 +176,29 @@ function love.mousepressed(x, y, button)
 				camera:setScale(4,4)
 			end
 		end
+		
+		if button == "l" then
+			editor.mousexpressed = math.round(x,-1)
+			editor.mouseypressed = math.round(y,-1)
+			editor.dragging = true
+		end
 	end
 end
 
+
+function love.mousereleased(x,y, button)
+	if editing then
+		if button == "l" then
+			editor.mousexreleased = math.round(x,-1)
+			editor.mouseyreleased = math.round(y,-1)
+			editor.dragging = false
+		end
+	end
+end
+
+function love.mousemoved(x,y,dx,dy)
+	if editing then
+		editor.mousex = math.round(x,-1)
+		editor.mousey = math.round(y,-1)
+	end
+end

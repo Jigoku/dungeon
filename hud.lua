@@ -26,8 +26,7 @@ hud.canvas = love.graphics.newCanvas( hud.w, hud.h)
 function hud:draw()
 	if editing then
 		--editor hud drawn here
-		love.graphics.setColor(255,20,10,255)
-		love.graphics.print("editing",20,20)
+		editor:draw()
 	else
 	--hud canvas
 	love.graphics.setCanvas(hud.canvas)
