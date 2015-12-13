@@ -67,7 +67,13 @@ function reset()
 	end
 end
 
-function love.load()
+function love.load(args)
+	
+	for _,arg in pairs(args) do
+		if arg == "-edit" then editing = true end
+		if arg == "-debug" then debug = true end
+	end
+	
 	math.randomseed(os.time())
 	
 	love.graphics.setBackgroundColor(0,0,0,255)
