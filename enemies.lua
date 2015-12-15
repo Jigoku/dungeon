@@ -58,6 +58,25 @@ function enemies:testboss()
 	})
 end
 
+function enemies:traverse_vertical(e,w,dt)
+	if e.y+e.h/2 < player.y+player.h/2 then
+		e.newy = e.y + e.speed * dt 	
+	elseif  e.y+e.h/2 > player.y+player.h/2 then
+		e.newy = e.y - e.speed * dt 
+	end
+
+end
+
+
+function enemies:traverse_horizontal(e,w,dt)
+	if e.x+e.w/2 < player.x-player.w/2 then
+		e.newx = e.x + e.speed * dt 
+	elseif  e.x+e.w+e.w/2 > player.x+player.w/2 then
+		e.newx = e.x - e.speed * dt 
+	end
+end
+
+
 function enemies:main(dt)
 	if editing then return end
 
@@ -82,12 +101,12 @@ function enemies:main(dt)
 		--walls
 		for _, w in pairs (arena.walls) do
 			if collision:overlap(e.newx,e.newy,e.w,e.h,w.x,w.y,w.w,w.h+(arena.wall_height/2)-(e.h/2)) then
-				if collision:left(e,w) then e.newx = w.x -e.w -1 *dt end
-				if collision:right(e,w) then e.newx = w.x +w.w +1 *dt end
-				if collision:top(e,w) then e.newy = w.y -e.h -1 *dt end
-							
+				if collision:left(e,w) then e.newx = w.x -e.w -1 *dt self:traverse_vertical(e,w,dt) end
+				if collision:right(e,w) then e.newx = w.x +w.w +1 *dt self:traverse_vertical(e,w,dt) end
+				if collision:top(e,w) then e.newy = w.y -e.h -1 *dt self:traverse_horizontal(e,w,dt) end
+					
 				local y = collision:ret_bottom_overlap(e,w)
-				if y then e.newy = y +1 *dt end
+				if y then e.newy = y +1 *dt self:traverse_horizontal(e,w,dt) end
 			end
 		end
 		
