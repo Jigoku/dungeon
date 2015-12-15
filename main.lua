@@ -30,7 +30,8 @@ require("editor")
 --mode switches
 paused = false
 debug = false
-	
+		WIDTH = love.window.getWidth()
+	HEIGHT = love.window.getHeight()
 function loadmap()
 	--test map
 	arena:addwall(100,100,500,200)
@@ -72,8 +73,7 @@ function love.load(args)
 		if arg == "-debug" then debug = true end
 	end
 	
-	WIDTH = love.window.getWidth()
-	HEIGHT = love.window.getHeight()
+
 	
 	icon = love.image.newImageData( "data/textures/bow.png")
 	love.window.setIcon( icon )
@@ -160,45 +160,19 @@ end
 
 function love.mousepressed(x, y, button)
 	if editing then
-		--zoom camera
-		local scaleX,scaleY
-		if button == "wu" then 
-			if camera.scaleX > 0.2 then
-				camera:scale(-0.1,-0.1)
-			else
-				camera:setScale(0.1,0.1)
-			end
-		end
-		if button == "wd" then 
-			if camera.scaleX < 4 then
-				camera:scale(0.1,0.1)
-			else
-				camera:setScale(4,4)
-			end
-		end
-		
-		if button == "l" then
-			editor.mousexpressed = math.round(x,-1)
-			editor.mouseypressed = math.round(y,-1)
-			editor.dragging = true
-		end
+		editor:mousepressed(x,y,button)
 	end
 end
 
 
 function love.mousereleased(x,y, button)
 	if editing then
-		if button == "l" then
-			editor.mousexreleased = math.round(x,-1)
-			editor.mouseyreleased = math.round(y,-1)
-			editor.dragging = false
-		end
+		editor:mousereleased(x,y,button)
 	end
 end
 
 function love.mousemoved(x,y,dx,dy)
 	if editing then
-		editor.mousex = math.round(x,-1)
-		editor.mousey = math.round(y,-1)
+		editor:mousemoved(x,y)
 	end
 end

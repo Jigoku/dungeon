@@ -116,8 +116,8 @@ function enemies:main(dt)
 		
 
 		--update drawing position
-		e.x = e.newx
-		e.y = e.newy
+		e.x = math.max(math.min(e.newx, arena.w - e.w), arena.x)
+		e.y = math.max(math.min(e.newy, arena.h - e.h), arena.y)
 		
 		n = n + 1
 	end

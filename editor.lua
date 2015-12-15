@@ -16,13 +16,10 @@
 editor = {}
 editing = false
 
-editor.mousex = 0
-editor.mousey = 0
-editor.mousexpressed = 0
-editor.mouseypressed = 0
-editor.mousexreleased = 0
-editor.mouseyreleased = 0
+mousePosX = 0
+mousePosY = 0
 
+editor.entsel = 0 --	arena:addwall(100,100,500,200)
 editor.dragging = false
 
 function editor:draw()
@@ -33,37 +30,83 @@ function editor:draw()
 	self:drawcursor()
 end
 
+
+
+
 function editor:drawcursor()
-	love.graphics.setColor(255,255,255,255)
+	--cursor
+	love.graphics.setColor(255,200,255,255)
 	love.graphics.line(
-		self.mousex-5,
-		self.mousey,
-		self.mousex+5,
-		self.mousey)
-	love.graphics.line(
-		self.mousex,
-		self.mousey-5,
-		self.mousex,
-		self.mousey+5
+		math.round(mousePosX,-1),
+		math.round(mousePosY,-1),
+		math.round(mousePosX,-1)+10,
+		math.round(mousePosY,-1)
 	)
-	love.graphics.print("x:"..self.mousex .. ",y:"..self.mousey,self.mousex,self.mousey-20,0,0.9)
+	love.graphics.line(
+		math.round(mousePosX,-1),
+		math.round(mousePosY,-1),
+		math.round(mousePosX,-1),
+		math.round(mousePosY,-1)+10
+	)
+	love.graphics.print("x,"..mousePosX .. " y,".. mousePosY, mousePosX,mousePosY-30)
 end
 
 function editor:drawselection()
-	--draw an outline when dragging mouse
+	--draw an outline when dragging mouse when entsel is one of these types
 	if self.dragging then
-		love.graphics.setColor(255,255,255,100)
-		love.graphics.rectangle(
-			"line", 
-			self.mousexpressed,self.mouseypressed, 
-			self.mousex-self.mousexpressed, self.mousey-self.mouseypressed
-		)
+				love.graphics.setColor(0,255,255,100)
+				love.graphics.rectangle(
+					"line", 
+					math.round(camera.x-(WIDTH/2*camera.scaleX)+pressedPosX*camera.scaleX,-1),
+					math.round(camera.y-(HEIGHT/2*camera.scaleY)+pressedPosY*camera.scaleY,-1),
+					math.round(camera.x-(WIDTH/2*camera.scaleX)+mousePosX*camera.scaleX,-1)-pressedPosX,
+					math.round(camera.y-(HEIGHT/2*camera.scaleY)+mousePosY*camera.scaleY,-1),-pressedPosY
+				)
+
 	end
 end
 
 function editor:main(dt)
-	print ("mouse\t",editor.mousex,editor.mousey)
-	print ("mousepressed",editor.mousexpressed,editor.mouseypressed)
-	print ("mousereleased",editor.mousexreleased,editor.mouseyreleased)
-	print("----")
+
+end
+
+function editor:mousepressed(x,y,button)
+	--zoom camera
+	pressedPosX = math.round(camera.x-(WIDTH/2*camera.scaleX)+x*camera.scaleX,-1)
+	pressedPosY = math.round(camera.y-(HEIGHT/2*camera.scaleY)+y*camera.scaleX,-1)
+	
+	local scaleX,scaleY
+	if button == "wu" then 
+		if camera.scaleX > 0.2 then
+			camera:scale(-0.1,-0.1)
+		else
+			camera:setScale(0.1,0.1)
+		end
+	end
+	if button == "wd" then 
+		if camera.scaleX < 4 then
+			camera:scale(0.1,0.1)
+		else
+			camera:setScale(4,4)
+		end
+	end
+		
+	if button == "l" then
+		self.dragging = true
+	end
+end
+
+
+function editor:mousereleased(x,y,button)
+	releasedPosX = math.round(camera.x-(WIDTH/2*camera.scaleX)+x*camera.scaleX,-1)
+	releasedPosY = math.round(camera.y-(HEIGHT/2*camera.scaleY)+y*camera.scaleX,-1)
+	
+	if button == "l" then	
+		self.dragging = false
+	end
+end
+
+function editor:mousemoved(x,y)
+	mousePosX = x
+	mousePosY = y
 end

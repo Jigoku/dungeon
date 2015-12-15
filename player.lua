@@ -189,16 +189,15 @@ function player:move(dt)
 			end
 		end
 	end
-	
-	if player.newx < arena.x then player.newx = arena.x +1 *dt end
-	if player.newy < arena.y then player.newy = arena.y +1 *dt end
-	if player.newx+player.w > arena.w then player.newx = arena.w-player.w -1 *dt end
-	if player.newy+player.h > arena.h then player.newy = arena.h-player.h -1 *dt end
+		player.x = math.max(math.min(player.newx, arena.w - player.w), arena.x)
+		player.y = math.max(math.min(player.newy, arena.h - player.h), arena.y)
+
+	else
+		player.x = player.newx
+		player.y = player.newy
 	
 	end
 	
-	player.x = player.newx
-	player.y = player.newy
 end
 
 
