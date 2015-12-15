@@ -34,7 +34,7 @@ function enemies:test()
 		maxhealth = 20,
 		texture = self.ghost,
 		name = "ghost",
-		flying = true,
+	flying = false,
 	})
 end
 
@@ -58,22 +58,25 @@ function enemies:testboss()
 	})
 end
 
-function enemies:traverse_vertical(e,w,dt)
-	if e.y+e.h/2 < player.y+player.h/2 then
-		e.newy = e.y + e.speed * dt 	
-	elseif  e.y+e.h/2 > player.y+player.h/2 then
-		e.newy = e.y - e.speed * dt 
-	end
-
+function enemies:traverse_vertical(e,o,dt)
+        if player.y+player.h/2 < o.y+o.h/2 then
+                e.newy = e.y - e.speed * dt
+        else
+                e.newy = e.y + e.speed * dt
+        end
 end
 
 
-function enemies:traverse_horizontal(e,w,dt)
-	if e.x+e.w/2 < player.x-player.w/2 then
-		e.newx = e.x + e.speed * dt 
-	elseif  e.x+e.w+e.w/2 > player.x+player.w/2 then
-		e.newx = e.x - e.speed * dt 
-	end
+
+
+function enemies:traverse_horizontal(e,o,dt)
+
+        if player.x+player.w/2 < o.x+o.w/2 then
+                e.newx = e.x - e.speed * dt
+        else
+                e.newx = e.x + e.speed * dt
+        end
+
 end
 
 
@@ -82,11 +85,14 @@ function enemies:main(dt)
 
 	local n = 0
 	for i, e in pairs(arena.enemies) do
-	
+		e.newx = e.x or e.newx
+        e.newy = e.y or e.newy
+         
 		--move towards the player
-		local angle = math.atan2(player.y - e.y, player.x - e.x)
-		e.newx = e.x + (math.cos(angle) * e.speed * dt)
-		e.newy = e.y + (math.sin(angle) * e.speed * dt)
+		local angle = math.atan2(player.y+player.h/2-e.h/2 - e.newy, player.x+player.w/2-e.w/2 - e.newx)
+		e.newx = e.newx + (math.cos(angle) * e.speed * dt)
+		e.newy = e.newy + (math.sin(angle) * e.speed * dt)
+
 		
 		--player
 		if collision:overlap(e.newx,e.newy,e.w,e.h,player.newx,player.newy,player.w,player.h) then
@@ -95,7 +101,7 @@ function enemies:main(dt)
 			if collision:top(e,player) then e.newy = player.newy -e.h -1 *dt end
 			if collision:bottom(e,player) then e.newy = player.newy+player.h +1 *dt end
 			
-			player.health = player.health - e.damage*dt
+			if not invincible then player.health = player.health - e.damage*dt end
 		end
 		
 		--walls
@@ -113,12 +119,12 @@ function enemies:main(dt)
 		if not e.flying then
 			for _, p in pairs (arena.pits) do
 				if collision:overlap(e.newx,e.newy,e.w,e.h,p.x,p.y,p.w,p.h+(arena.wall_height/2)-(e.h/2)) then
-					if collision:left(e,p) then e.newx = p.x -e.w -1 *dt end
-					if collision:right(e,p) then e.newx = p.x +p.w +1 *dt end
-					if collision:top(e,p) then e.newy = p.y -e.h -1 *dt end
+					if collision:left(e,p) then e.newx = p.x -e.w -1 *dt self:traverse_vertical(e,p,dt) end
+					if collision:right(e,p) then e.newx = p.x +p.w +1 *dt self:traverse_vertical(e,p,dt) end
+					if collision:top(e,p) then e.newy = p.y -e.h -1 *dt self:traverse_horizontal(e,p,dt) end
 							
 					local y = collision:ret_bottom_overlap(e,p)
-					if y then e.newy = y +1 *dt end
+					if y then e.newy = y +1 *dt self:traverse_horizontal(e,p,dt) end
 				end
 			end
 		end
@@ -126,7 +132,7 @@ function enemies:main(dt)
 		--other enemies
 		for n, e2 in pairs(arena.enemies) do
 			if collision:overlap(e.newx,e.newy,e.w,e.h,e2.x,e2.y,e2.w,e2.h) and not (i == n) then
-				if collision:left(e,e2) then e.newx = e2.x -e.w -1 *dt end
+				if collision:left(e,e2) then e.newx = e2.x -e.w -1 *dt  end
 				if collision:right(e,e2) then e.newx = e2.x +e2.w +1 *dt end
 				if collision:top(e,e2) then e.newy = e2.y -e.h -1 *dt end
 				if collision:bottom(e,e2) then e.newy = e2.y+e2.h +1 *dt  end

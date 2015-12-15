@@ -210,6 +210,8 @@ function arena:draw()
 		self.shroud:getHeight()/2
 	)
 	end
+	
+	
 end
 
 
@@ -278,3 +280,6 @@ end
 function arena:main(dt)
 	traps:main(arena.traps,dt)
 end
+
+
+

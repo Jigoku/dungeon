@@ -30,8 +30,11 @@ require("editor")
 --mode switches
 paused = false
 debug = false
-		WIDTH = love.window.getWidth()
-	HEIGHT = love.window.getHeight()
+invincible = true
+scanlines = true
+
+WIDTH = love.window.getWidth()
+HEIGHT = love.window.getHeight()
 function loadmap()
 	--test map
 	arena:addwall(100,100,500,200)
@@ -71,6 +74,7 @@ function love.load(args)
 	for _,arg in pairs(args) do
 		if arg == "-edit" then editing = true end
 		if arg == "-debug" then debug = true end
+		if arg == "-fullscreen" then love.window.setFullscreen(1) end
 	end
 	
 
@@ -91,12 +95,13 @@ function love.load(args)
 		reset()
 	end
 	
-	
+	hud:refresh()
 end
 
 function love.resize(w,h)
 	WIDTH = w
 	HEIGHT= h
+	hud:refresh()
 end
 
 function love.update(dt)
@@ -121,7 +126,7 @@ function love.draw()
 	camera:unset()
 	
 	hud:draw()
-	
+
 	
 	
 	--debug misc

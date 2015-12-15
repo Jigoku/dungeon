@@ -23,23 +23,23 @@ end
 
 
 function collision:right(a,b)
-	return a.newx <= b.x+b.w and 
-					a.x >= b.x+b.w
+	return a.newx < b.x+b.w and 
+					a.x > b.x+b.w
 end
 
 function collision:left(a,b)
-	return a.newx+a.w >= b.x and 
-					a.x+a.w <= b.x 
+	return a.newx+a.w > b.x and 
+					a.x+a.w < b.x 
 end
 
 function collision:top(a,b)
-	return a.newy+a.h >= b.y  and 
-					a.y+a.h <= b.y
+	return a.newy+a.h > b.y  and 
+					a.y+a.h < b.y
 end
 
 function collision:bottom(a,b)
-	return a.newy <= b.y+b.h and 
-					a.y >= b.y+b.h 
+	return a.newy < b.y+b.h and 
+					a.y > b.y+b.h 
 end
 
 

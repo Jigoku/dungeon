@@ -23,6 +23,33 @@ hud.texture:setWrap("repeat", "repeat")
 hud.quad = love.graphics.newQuad( 0,0, hud.w, hud.h, hud.texture:getDimensions() )
 hud.canvas = love.graphics.newCanvas( hud.w, hud.h)
 
+
+
+function hud:refresh()
+	if scanlines then
+	hud.scanlines = love.graphics.newCanvas( WIDTH, HEIGHT )
+	love.graphics.setCanvas(hud.scanlines)
+	hud.scanlines:clear()
+	love.graphics.setCanvas(hud.scanlines)
+	
+	local step = 3
+	for i=0,love.graphics.getHeight(),step do
+		if (i % 2 == 0) then
+			love.graphics.setColor(50, 150, 150, 40)
+			love.graphics.rectangle("fill",0,i, love.graphics.getWidth(), step)
+		else
+			love.graphics.setColor(30, 40, 35,60)
+			love.graphics.rectangle("fill",0,i, love.graphics.getWidth(), step)
+		end
+	end
+	
+	love.graphics.setCanvas()
+	end
+end
+
+
+
+
 function hud:draw()
 	if editing then
 		--editor hud drawn here
@@ -106,5 +133,13 @@ function hud:draw()
 	love.graphics.setColor(255, 255, 255, 255)
 	
 	love.graphics.draw(hud.canvas, WIDTH/2-(hud.w*hud.scale)/2,HEIGHT-(hud.h*hud.scale)-(5*hud.scale),0,hud.scale)
+	
+
+
+	if scanlines then
+		love.graphics.setColor(255, 255, 255, 255)
+		love.graphics.draw(hud.scanlines, 0,0 )
+	end
+	
 	end
 end
