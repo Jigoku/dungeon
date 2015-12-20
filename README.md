@@ -6,8 +6,9 @@ Implemented features
 * walls
 * pits
 * weapon slots
-* health/mana pickups
+* pickups
 
-![18](https://cloud.githubusercontent.com/assets/1535179/11737837/21f920f4-9fd5-11e5-9b07-700921b65626.png)
+![21](https://cloud.githubusercontent.com/assets/1535179/11918738/d2834866-a735-11e5-920c-b6ed043891c7.png)
+
 
 
