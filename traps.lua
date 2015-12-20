@@ -18,7 +18,7 @@ traps = {}
 function traps:drawbehind(table)
 	for _, st in pairs(table) do
 		--base/floor
-		love.graphics.setColor(45,55,60,255)
+		love.graphics.setColor(35,45,50,255)
 		love.graphics.rectangle("fill", st.x,st.y+st.offset,st.w,st.h)
 		
 		love.graphics.setColor(100,100,100,255)
@@ -56,6 +56,8 @@ end
 
 function traps:main(table,dt)
 	if editing then return end
+	
+	--spike traps
 	for _, st in pairs(table) do
 		st.cycle = math.max(0, st.cycle - dt)
 		

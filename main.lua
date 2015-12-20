@@ -16,6 +16,7 @@
 
 
 require("binds")
+require("input")
 require("arena")
 require("camera")
 require("player")
@@ -27,14 +28,9 @@ require("hud")
 require("pickups")
 require("traps")
 require("editor")
---mode switches
-paused = false
-debug = false
-invincible = true
-scanlines = true
 
-WIDTH = love.window.getWidth()
-HEIGHT = love.window.getHeight()
+
+
 function loadmap()
 	--test map
 	arena:addwall(100,100,500,200)
@@ -70,28 +66,42 @@ function reset()
 end
 
 function love.load(args)
+
+	--default mode switches
+	paused = false
+	debug = false
+	invincible = true
+	scanlines = false
 	
+	--pass arguments for modesetting
 	for _,arg in pairs(args) do
 		if arg == "-edit" then editing = true end
 		if arg == "-debug" then debug = true end
 		if arg == "-fullscreen" then love.window.setFullscreen(1) end
 	end
 	
-
+	max_fps = 60
+	min_dt = 1/max_fps
+	next_time = love.timer.getTime()
 	
+	--window settings
 	icon = love.image.newImageData( "data/textures/bow.png")
 	love.window.setIcon( icon )
 	love.mouse.setVisible( false )
+	love.graphics.setBackgroundColor(0,0,0,255)
 	
+	WIDTH = love.window.getWidth()
+	HEIGHT = love.window.getHeight()	
 	
+	--generate random seed
 	math.randomseed(os.time())
 	
-	love.graphics.setBackgroundColor(0,0,0,255)
 	
 	if not editing then
 		reset()
 		loadmap()
 	else
+
 		reset()
 	end
 	
@@ -105,6 +115,9 @@ function love.resize(w,h)
 end
 
 function love.update(dt)
+	-- caps fps
+    next_time = next_time + min_dt
+    
 	if paused then return end
 	
 	player:main(dt)
@@ -119,16 +132,12 @@ end
 
 function love.draw()
 	
-
-	
 	camera:set()
 		arena:draw()
 	camera:unset()
 	
 	hud:draw()
 
-	
-	
 	--debug misc
 	if debug then
 		love.graphics.setColor(255,255,255,155)
@@ -144,40 +153,14 @@ function love.draw()
 		love.graphics.printf("camscale: " .. camera.scaleX ,WIDTH-100,145,300,"left",0,1,1)
 	end
 
-end
-
-function love.keypressed(key)
-	if key == "escape" then love.event.quit() end
-	if key == binds.debug then debug = not debug end
-	
-	if not editing then
-		if key == binds.pause then paused = not paused end
-		if key == " " then reset() loadmap() end
+	-- caps fps
+	local cur_time = love.timer.getTime()
+	if next_time <= cur_time then
+		next_time = cur_time
+		return
 	end
-	
-	if not paused then
-		player:keypressed(key)
-	end
-	
+	love.timer.sleep(next_time - cur_time)
 	
 end
 
 
-function love.mousepressed(x, y, button)
-	if editing then
-		editor:mousepressed(x,y,button)
-	end
-end
-
-
-function love.mousereleased(x,y, button)
-	if editing then
-		editor:mousereleased(x,y,button)
-	end
-end
-
-function love.mousemoved(x,y,dx,dy)
-	if editing then
-		editor:mousemoved(x,y)
-	end
-end

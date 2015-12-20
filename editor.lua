@@ -16,8 +16,10 @@
 editor = {}
 editing = false
 
-mousePosX = 0
-mousePosY = 0
+editor.cursorx = 0
+editor.cursory = 0
+
+
 
 editor.entsel = 0 --	arena:addwall(100,100,500,200)
 editor.dragging = false
@@ -28,6 +30,11 @@ function editor:draw()
 	
 	self:drawselection()
 	self:drawcursor()
+	
+	
+	love.graphics.print("cursorx:"..self.cursorx .." cursory:".. self.cursory,20,40 )
+	love.graphics.print("cursorpressedx:"..tostring(self.cursorpressedx) .." cursorpressedy:".. tostring(self.cursorpressedy),20,65 )
+	love.graphics.print("cursorreleasedx:"..tostring(self.cursorreleasedx) .."cursorreleasedy:".. tostring(self.cursorreleasedy),20,80 )
 end
 
 
@@ -37,18 +44,18 @@ function editor:drawcursor()
 	--cursor
 	love.graphics.setColor(255,200,255,255)
 	love.graphics.line(
-		math.round(mousePosX,-1),
-		math.round(mousePosY,-1),
-		math.round(mousePosX,-1)+10,
-		math.round(mousePosY,-1)
+		math.round(self.cursorx,-1),
+		math.round(self.cursory,-1),
+		math.round(self.cursorx,-1)+10,
+		math.round(self.cursory,-1)
 	)
 	love.graphics.line(
-		math.round(mousePosX,-1),
-		math.round(mousePosY,-1),
-		math.round(mousePosX,-1),
-		math.round(mousePosY,-1)+10
+		math.round(self.cursorx,-1),
+		math.round(self.cursory,-1),
+		math.round(self.cursorx,-1),
+		math.round(self.cursory,-1)+10
 	)
-	love.graphics.print("x,"..mousePosX .. " y,".. mousePosY, mousePosX,mousePosY-30)
+	love.graphics.print("x,"..self.cursorx .. " y,".. self.cursory, self.cursorx,self.cursory-20,0,0.9)
 end
 
 function editor:drawselection()
@@ -57,10 +64,8 @@ function editor:drawselection()
 				love.graphics.setColor(0,255,255,100)
 				love.graphics.rectangle(
 					"line", 
-					math.round(camera.x-(WIDTH/2*camera.scaleX)+pressedPosX*camera.scaleX,-1),
-					math.round(camera.y-(HEIGHT/2*camera.scaleY)+pressedPosY*camera.scaleY,-1),
-					math.round(camera.x-(WIDTH/2*camera.scaleX)+mousePosX*camera.scaleX,-1)-pressedPosX,
-					math.round(camera.y-(HEIGHT/2*camera.scaleY)+mousePosY*camera.scaleY,-1),-pressedPosY
+					self.cursorpressedx,self.cursorpressedy, 
+					self.cursorx-self.cursorpressedx, self.cursory-self.cursorpressedy
 				)
 
 	end
@@ -72,8 +77,10 @@ end
 
 function editor:mousepressed(x,y,button)
 	--zoom camera
-	pressedPosX = math.round(camera.x-(WIDTH/2*camera.scaleX)+x*camera.scaleX,-1)
-	pressedPosY = math.round(camera.y-(HEIGHT/2*camera.scaleY)+y*camera.scaleX,-1)
+	self.cursorpressedx =math.round(camera.x-(WIDTH/2*camera.scaleX)+x*camera.scaleX,-1)
+	self.cursorpressedy = math.round(camera.y-(HEIGHT/2*camera.scaleY)+y*camera.scaleY,-1)
+	
+	
 	
 	local scaleX,scaleY
 	if button == "wu" then 
@@ -98,15 +105,19 @@ end
 
 
 function editor:mousereleased(x,y,button)
-	releasedPosX = math.round(camera.x-(WIDTH/2*camera.scaleX)+x*camera.scaleX,-1)
-	releasedPosY = math.round(camera.y-(HEIGHT/2*camera.scaleY)+y*camera.scaleX,-1)
+	self.cursorreleasedx = math.round(camera.x-(WIDTH/2*camera.scaleX)+x*camera.scaleX,-1)
+	self.cursorreleasedy = math.round(camera.y-(HEIGHT/2*camera.scaleY)+y*camera.scaleY,-1)
 	
 	if button == "l" then	
 		self.dragging = false
+		arena:addwall(
+					self.cursorpressedx,self.cursorpressedy, 
+					self.cursorx-self.cursorpressedx, self.cursory-self.cursorpressedy
+		)
 	end
 end
 
 function editor:mousemoved(x,y)
-	mousePosX = x
-	mousePosY = y
+	self.cursorx = math.round(camera.x-(WIDTH/2*camera.scaleX)+x*camera.scaleX,-1)
+	self.cursory = math.round(camera.y-(HEIGHT/2*camera.scaleY)+y*camera.scaleY,-1)
 end

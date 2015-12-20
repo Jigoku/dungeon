@@ -38,18 +38,18 @@ function arena:init()
 	
 
 	
-	arena.wall_texture = love.graphics.newImage("data/textures/brick.png")
+	arena.wall_texture = love.graphics.newImage("data/textures/wall/brick.png")
 	arena.wall_texture:setWrap("repeat", "clamp")
 	
 	arena.wall_height = arena.wall_texture:getHeight()
 	
-	arena.floor_texture = love.graphics.newImage("data/textures/checked.png")
+	arena.floor_texture = love.graphics.newImage("data/textures/floor/tiles.png")
 	arena.floor_texture:setWrap("repeat", "repeat")
 
 	arena.top_texture = love.graphics.newImage("data/textures/marble.png")
 	arena.top_texture:setWrap("repeat", "repeat")
 	
-	arena.pit_texture = love.graphics.newImage("data/textures/brick_pit.png")
+	arena.pit_texture = love.graphics.newImage("data/textures/pit/brick.png")
 	arena.pit_texture:setWrap("repeat", "clamp")
 	
 	arena.shroud = love.graphics.newImage("data/textures/shroud.png")
@@ -72,15 +72,15 @@ end
 function arena:draw()
 	
 	--floor
-	love.graphics.setColor(50,50,60,255)
+	love.graphics.setColor(80,70,85,255)
 	
 	local quad = love.graphics.newQuad( 0,0,arena.w,arena.h, arena.floor_texture:getDimensions() )
 	love.graphics.draw(arena.floor_texture, quad, 0,0)
 	
 	--walls layer 1
 	for _, w in pairs(arena.walls) do
-		love.graphics.setColor(40,40,50,255)
-		
+		love.graphics.setColor(60,60,70,255)
+	
 		local quad = love.graphics.newQuad( 0,0, w.w, arena.wall_height, arena.wall_texture:getDimensions() )
 		love.graphics.draw(arena.wall_texture, quad, w.x,w.y+w.h-self.wall_height/2)
 	
@@ -91,7 +91,8 @@ function arena:draw()
 		love.graphics.setColor(0,0,0,255)
 		love.graphics.rectangle("fill",p.x,p.y,p.w,p.h+arena.wall_height/2)
 	
-		love.graphics.setColor(40,40,50,255)
+		love.graphics.setColor(60,60,70,255)
+
 		
 		local quad = love.graphics.newQuad( 0,0, p.w, arena.wall_height, arena.pit_texture:getDimensions() )
 		love.graphics.draw(arena.pit_texture, quad, p.x,p.y)
@@ -99,12 +100,8 @@ function arena:draw()
 		--outline shadow
 		love.graphics.setColor(40,40,50,200)
 		--left
-		love.graphics.line(p.x,p.y,p.x,p.y+p.h+arena.wall_height/2)
-		--right
-		love.graphics.line(p.x+p.w,p.y,p.x+p.w,p.y+p.h+arena.wall_height/2)
-		--bottom
-		love.graphics.line(p.x,p.y+p.h+arena.wall_height/2, p.x+p.w, p.y+p.h+arena.wall_height/2)
-				
+		love.graphics.line(p.x,p.y,p.x+p.w,p.y)
+
 		if debug then
 			love.graphics.setColor(255,0,0,255)
 			love.graphics.rectangle("line", p.x,p.y,p.w,p.h+arena.wall_height/2)
@@ -149,11 +146,14 @@ function arena:draw()
 	for _, w in pairs(arena.walls) do
 
 		--top
-		love.graphics.setColor(20,20,30,255)
+		love.graphics.setColor(40,40,50,255)
+
+		
 		local quad = love.graphics.newQuad( w.x,w.y-self.wall_height/2,w.w,w.h, arena.top_texture:getDimensions() )
 		love.graphics.draw(arena.top_texture, quad, w.x,w.y-self.wall_height/2)
 
-
+		love.graphics.setColor(40,40,50,200)
+		love.graphics.rectangle("line",w.x,w.y-self.wall_height/2,w.w,w.h)
 		if debug then
 			love.graphics.setColor(255,0,0,255)
 			love.graphics.rectangle("line", w.x,w.y,w.w,w.h+arena.wall_height/2)
@@ -163,7 +163,7 @@ function arena:draw()
 
 	if not editing then
 	--shadow/shroud
-	love.graphics.setColor(0,0,0,200)
+	love.graphics.setColor(0,0,0,math.random(200,240))
 	love.graphics.draw(self.shroud, player.x+player.w/2-self.shroud:getWidth()/2,player.y+player.h/2-self.shroud:getHeight()/2)
 	
 	local x = player.x+player.w/2-self.shroud:getWidth()/2
