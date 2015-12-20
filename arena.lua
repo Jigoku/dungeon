@@ -109,10 +109,10 @@ function arena:draw()
 	end
 	
 	traps:drawbehind(arena.traps)
-	pickups:draw(arena.pickups)
+	pickups:drawbehind(arena.pickups)
 	enemies:drawbehind(arena.enemies)
 	player:draw()
-	
+	pickups:drawinfront(arena.pickups)
 	traps:drawinfront(arena.traps)
 	
 	
@@ -247,34 +247,7 @@ function arena:addspiketrap(x,y,w,h)
 	})
 end
 
-function arena:addpickup(type,x,y)
-	if type == "health" then
-		w = 7
-		h = 7
-		value = 10
-		segments = 3
-	elseif type == "mana" then
-		w = 7
-		h = 7
-		value = 10
-		segments = 3
-	elseif type == "coin" then
-		w = 5
-		h = 5
-		value = 1
-		segments = 5
-	end
-	table.insert(arena.pickups, {
-		type = type or nil,
-		x = x or 0,
-		y = y or 0,
-		w = w or 0,
-		h = h or 0,
-		value = value or 0,
-		angle = math.random(360),
-		segments = segments
-	})
-end
+
 
 
 function arena:main(dt)

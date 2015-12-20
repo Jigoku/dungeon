@@ -45,10 +45,12 @@ function loadmap()
 	arena:addpit(500,800,60,60)	
 	arena:addpit(300,900,130,100)	
 	
-	arena:addpickup("health",450,400)
-	arena:addpickup("health",500,400)
-	arena:addpickup("mana",500,520)
-	arena:addpickup("mana",500,570)
+	pickups:add("health_potion",450,400)
+	pickups:add("health_potion",450,500)
+	pickups:add("health",400,400)
+	pickups:add("health",500,400)
+	pickups:add("mana",500,520)
+	pickups:add("mana",500,570)
 end
 
 

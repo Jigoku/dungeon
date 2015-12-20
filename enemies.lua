@@ -192,13 +192,13 @@ end
 function enemies:die(enemy)
 	local seed = math.random(0,100)
 	if seed > 90 then
-		arena:addpickup("health",enemy.x+enemy.w/2,enemy.y+enemy.h/2)
+		pickups:add("health",enemy.x+enemy.w/2,enemy.y+enemy.h/2)
 	end
 	if seed < 10 then
-		arena:addpickup("mana",enemy.x+enemy.w/2,enemy.y+enemy.h/2)
+		pickups:add("mana",enemy.x+enemy.w/2,enemy.y+enemy.h/2)
 	end
 	if seed >= 10 and seed <= 30 then
-		arena:addpickup("coin",enemy.x+enemy.w/2,enemy.y+enemy.h/2)
+		pickups:add("coin",enemy.x+enemy.w/2,enemy.y+enemy.h/2)
 	end
 	
 	if enemy.name == "ghost" then

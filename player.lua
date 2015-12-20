@@ -163,7 +163,7 @@ function player:move(dt)
 	
 	for i, p in pairs(arena.pickups) do
 		if collision:overlap(player.newx,player.newy,player.w,player.h, p.x,p.y,p.w,p.h) then
-			if p.type == "health" then
+			if p.type == "health" or p.type == "health_potion" then
 				if player.health < player.maxhealth then
 					player.health = player.health + p.value
 					table.remove(arena.pickups, i)
